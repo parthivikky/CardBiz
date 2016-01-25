@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_primary_color">#4dc247</color>
+    <color name="app_userform_header_color">#e5f0e4</color>
+    <color name="app_primary_blue_button_color">#0066cc</color>
+    <color name="app_primary_dkpurple_color">#1749F7</color>
+    <color name="app_secondary_white_color">#FFFFFF</color>
+    <color name="app_white_pressed_color">#EEEEEE</color>
+    <color name="app_secondary_grey_color">#dbdbdb</color>
+    <color name="app_orange_color">#f5901d</color>
+    <color name="app_black_color">#000000</color>
+    <color name="app_home_screen_header_grey">#bcbec0</color>
+    <color name="app_drak_grey">#6d6e71</color>
+    <color name="app_drakest_grey">#363535</color>
+    <color name="app_tutorial_cicle_color">#1749F7</color>
+    <color name="login_edittext_hint">#cccccc</color>
+    <color name="green_pressed">#359F35</color>
+    <color name="header_normal">#ffe74c3c</color>
+    <color name="header_pressed">#ffc0392b</color>
+    <color name="menu_section_header">#FFDDDDDD</color>
+</resources>

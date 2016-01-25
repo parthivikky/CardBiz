@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_primary_color"
+    tools:context="com.mobellotec.cardbiz.Fragment.CardsFragment">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/home_title"
+            style="@style/actionbar_title_layout"
+            android:text="Contact Request"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/contact_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_above="@+id/message"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Contact Name"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:textColor="@color/app_secondary_white_color"/>
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:text="would like to share contact with you"
+        android:layout_margin="20dp"
+        android:textSize="22sp"
+        android:singleLine="false"
+        android:textColor="@color/app_secondary_white_color"/>
+
+    <TextView
+        android:id="@+id/add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add to Card Holder"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/app_primary_color"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/addtocardholder_bg"
+        android:padding="10dp"
+        android:gravity="center"/>
+
+
+
+</RelativeLayout>

@@ -1,0 +1,27 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg"
+    android:orientation="vertical"
+    tools:context="com.mobellotec.cardbiz.Activity.TemplateActivity">
+
+    <TextView
+        android:id="@+id/home_title"
+        style="@style/actionbar_title_text"
+        android:text="Templates" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/home_title"
+        android:divider="@null" />
+
+    <TextView
+        android:id="@+id/empty_view"
+        style="@style/empty_view"
+        android:text="No templates found"
+        android:visibility="gone" />
+
+</RelativeLayout>

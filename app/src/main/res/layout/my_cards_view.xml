@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="none"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:descendantFocusability="afterDescendants"
+            android:focusableInTouchMode="false"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="300dp"
+                    android:layout_height="190dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/free_template_bg">
+
+                    <FrameLayout
+                        android:id="@+id/frontContainer"
+                        android:layout_margin="1dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ProgressBar
+                            android:id="@+id/front_progress_bar"
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:id="@+id/no_card_front"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#141414"
+                            android:text="NO CARD IMAGE AVAILABLE"
+                            android:textSize="18sp"
+                            android:textColor="#ffffff"
+                            android:gravity="center"
+                            android:visibility="gone"/>
+                    </FrameLayout>
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <FrameLayout
+                    android:id="@+id/backSuperContainer"
+                    android:layout_width="300dp"
+                    android:layout_height="190dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/free_template_bg">
+
+                    <FrameLayout
+                        android:id="@+id/backContainer"
+                        android:layout_width="match_parent"
+                        android:layout_margin="1dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" />
+
+                    <ProgressBar
+                        android:id="@+id/back_progress_bar"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/no_card_back"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#141414"
+                        android:textSize="18sp"
+                        android:textColor="#ffffff"
+                        android:gravity="center"
+                        android:text="NO CARD IMAGE AVAILABLE"
+                        android:visibility="gone"/>
+                </FrameLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

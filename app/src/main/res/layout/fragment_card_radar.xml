@@ -1,0 +1,133 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mobellotec.cardbiz.Fragment.CardRadarFragment">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/app_primary_color">
+
+        <TextView
+            android:id="@+id/home_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Nearby"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/privatee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Private"
+            android:textColor="#ffffff"
+            android:textSize="17sp"
+            android:padding="5dp"
+            android:background="@drawable/nearby_private_btn_bg"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/card_container"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/header"
+        android:background="#c1392b"
+        android:gravity="center_vertical"
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/card_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Select a card"
+            android:textColor="#ffece4"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/close"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!--<TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/app_primary_color"
+        android:gravity="center"
+        android:text="Nearby"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"/>-->
+
+    <com.mobellotec.cardbiz.Utility.MapWrapperLayout
+        android:id="@+id/map_wrapper_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/card_container">
+
+        <fragment
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.mobellotec.cardbiz.Utility.MapWrapperLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_slider"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/header"
+        android:visibility="gone">
+
+        <com.mobellotec.cardbiz.Utility.Slider
+            android:id="@+id/slider_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#1E88E5"
+            materialdesign:max="10"
+            materialdesign:min="0"
+            materialdesign:showNumberIndicator="true" />
+    </RelativeLayout>
+
+    <com.skyfishjy.library.RippleBackground
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_slider"
+        android:visibility="gone"
+        app:rb_color="#0099CC"
+        app:rb_duration="3000"
+        app:rb_radius="32dp"
+        app:rb_rippleAmount="6"
+        app:rb_scale="6">
+
+        <ImageView
+            android:id="@+id/center_image"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/radar_phone" />
+
+    </com.skyfishjy.library.RippleBackground>
+</RelativeLayout>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mobellotec.cardbiz" >
+
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-feature android:name="android.hardware.location" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <supports-screens android:smallScreens="true" android:normalScreens="true"
+         android:largeScreens="true" android:requiresSmallestWidthDp="320" />
+
+    <uses-permission android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <!-- permission for GoogleCloudMessage. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <permission
+        android:name="com.mobellotec.cardbiz.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.mobellotec.cardbiz.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <!-- Map Permission -->
+    <permission
+        android:name="com.mobellotec.cardbiz.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.mobellotec.cardbiz.permission.MAPS_RECEIVE" />
+<!--    android:name="android.support.multidex.MultiDexApplication"-->
+    <application
+        android:name=".Utility.CardBizApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".Activity.SplashActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <!-- <action android:name="android.intent.action.VIEW" /> -->
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <!--
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="cardbiz" />
+                -->
+            </intent-filter>
+        </activity>
+
+        <!-- ******Gcm Notification receiver and Service****** -->
+        <receiver
+            android:name=".PushNotification.GcmBroadcastReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.mobellotec.cardbiz" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".PushNotification.GcmNotificationService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".Activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".Activity.TutorialActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.VerificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.MobileNoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.CountryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activity.AddNewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.CreateCardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.FreeTemplateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.TemplateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.GroupInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.NotificationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".Activity.ChooseCardActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBd1BOb-sQwNP4w1sd5Kbk8ypp6ljQa_Zg" />
+
+        <activity
+            android:name=".Activity.CaptureCardActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_capture_card"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.SharedCardViewActivity"
+            android:label="@string/title_activity_shared_card_view"
+            android:screenOrientation="portrait" >
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="cardbiz" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".Activity.ShareSplashActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="cardbiz" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.OwnCardViewActivity"
+            android:label="@string/title_activity_shared_card_view"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.NoCardActivity"
+            android:label="@string/title_activity_no_card" />
+        <activity android:name=".Activity.SettingsActivity" />
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <activity android:name=".Activity.ContactsActivity" >
+        </activity>
+        <activity android:name=".Activity.EditCardActivity" >
+        </activity>
+        <activity android:name=".Activity.PrivacyPolicyActivity" >
+        </activity>
+    </application>
+
+</manifest>

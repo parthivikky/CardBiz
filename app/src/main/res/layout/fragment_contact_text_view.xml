@@ -1,0 +1,199 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_secondary_white_color"
+    android:fadingEdge="none"
+    android:scrollbars="none"
+    tools:context="com.mobellotec.cardbiz.Fragment.CardsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_primary_color"
+            android:gravity="center_vertical"
+            android:minHeight="50dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/app_secondary_white_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <com.mobellotec.cardbiz.Utility.SelectableRoundedImageView
+                android:id="@+id/user_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_below="@+id/txt_title"
+                android:layout_gravity="center"
+                android:background="@drawable/card_details_placeholder"
+                android:gravity="center" />
+
+            <ProgressBar
+                android:id="@+id/user_progress_bar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_phone"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_email"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_role"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_user_fb"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_user_twit"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_user_li"
+            style="@style/contact_text_view" />
+
+        <TextView
+            android:id="@+id/txt_company_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:background="@color/app_primary_color"
+            android:gravity="center_vertical"
+            android:minHeight="50dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/app_secondary_white_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <com.mobellotec.cardbiz.Utility.SelectableRoundedImageView
+                android:id="@+id/company_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_below="@+id/txt_title"
+                android:layout_gravity="center"
+                android:background="@drawable/card_details_placeholder"
+                android:gravity="center"
+                android:scaleType="centerCrop" />
+
+            <ProgressBar
+                android:id="@+id/comp_progress_bar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_comp_email"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_comp_phone"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_comp_website"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_comp_fax"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_comp_block"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_comp_street_no"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_comp_city"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_comp_country"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_comp_postal_code"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_comp_fb"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_comp_li"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+        <TextView
+            android:id="@+id/txt_comp_twit"
+            style="@style/contact_text_view" />
+
+        <View style="@style/contact_line_view" />
+
+    </LinearLayout>
+</ScrollView>

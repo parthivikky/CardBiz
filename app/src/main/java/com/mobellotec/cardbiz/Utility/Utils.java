@@ -1,0 +1,43 @@
+package com.mobellotec.cardbiz.Utility;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.TypedValue;
+import android.view.View;
+
+import org.acra.ACRA;
+
+public class Utils {
+	
+	
+	/**
+	 * Convert Dp to Pixel
+	 */
+	public static int dpToPx(float dp, Resources resources){
+		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
+		return (int) px;
+	}
+	
+	public static int getRelativeTop(View myView) {
+//	    if (myView.getParent() == myView.getRootView())
+	    if(myView.getId() == android.R.id.content)
+	        return myView.getTop();
+	    else
+	        return myView.getTop() + getRelativeTop((View) myView.getParent());
+	}
+	
+	public static int getRelativeLeft(View myView) {
+//	    if (myView.getParent() == myView.getRootView())
+		if(myView.getId() == android.R.id.content)
+			return myView.getLeft();
+		else
+			return myView.getLeft() + getRelativeLeft((View) myView.getParent());
+	}
+
+	public static void sendReport(Context context , Exception exception){
+		if(context != null) {
+            BugReportSender bugReportSender = new BugReportSender(context, exception);
+            ACRA.getErrorReporter().setReportSender(bugReportSender);
+        }
+	}
+}

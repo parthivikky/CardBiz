@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mobellotec.cardbiz.Activity.ContactsActivity">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/app_primary_color"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/home_title"
+            style="@style/actionbar_title_layout"
+            android:text="Contacts" />
+
+        <TextView
+            android:id="@+id/invites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:text="Invite(0)"
+            android:textColor="@color/app_secondary_white_color"
+            android:textSize="18sp"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/search_layout"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:divider="#C8C7CC"
+        android:dividerHeight="1dp"
+        android:drawSelectorOnTop="true"
+        android:fastScrollEnabled="true" />
+
+    <View
+        android:id="@+id/bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/bottom_tab"
+        android:background="#929292" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#eeeeee"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/selectAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:text="Select All"
+            android:textColor="#57beff"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/clearAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="Clear All"
+            android:textColor="#57beff"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+</LinearLayout>

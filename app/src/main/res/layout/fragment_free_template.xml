@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context="com.mobellotec.cardbiz.Activity.TemplateActivity">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/app_primary_color">
+
+        <!--<TextView
+            android:id="@+id/txt_my_cards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/left_arrow"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/back"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />-->
+
+        <TextView
+            android:id="@+id/home_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Select Template"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <!--<TextView
+            android:id="@+id/txt_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/buy"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />-->
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:divider="@null"
+        android:paddingBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/empty_view"
+        style="@style/empty_view"
+        android:text="No templates found"
+        android:visibility="gone" />
+
+</RelativeLayout>
