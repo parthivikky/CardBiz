@@ -100,6 +100,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/8.1.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services/8.1.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.skyfishjy.ripplebackground/library/1.0.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/me.grantland/autofittextview/0.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/se.emilsjolander/stickylistheaders/2.4.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
@@ -140,6 +141,7 @@
     <orderEntry type="library" exported="" name="acra-4.7.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-identity-8.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-fitness-8.1.0" level="project" />
+    <orderEntry type="library" exported="" name="autofittextview-0.2.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-nearby-8.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-appindexing-8.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-8.1.0" level="project" />
@@ -153,8 +155,8 @@
     <orderEntry type="library" exported="" name="play-services-8.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-measurement-8.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-ads-8.1.0" level="project" />
-    <orderEntry type="library" exported="" name="okhttp-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="seismic-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="facebook-android-sdk-4.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-maps-8.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-location-8.1.0" level="project" />

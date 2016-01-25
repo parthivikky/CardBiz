@@ -164,7 +164,7 @@ public class CardsFragment extends Fragment implements View.OnClickListener {
         CommonClass.showProgress(getActivity());
         ArrayList<Parameter> parameters = new ArrayList<>();
         parameters.add(new Parameter("userID", AppPreference.getString(getActivity(), AppPreference.USER_ID)));
-
+        Log.i("userID", AppPreference.getString(getActivity(), AppPreference.USER_ID));
         new ServerRequest(getActivity(), ServerRequest.POST, Constants.MY_CARD_LIST, parameters, new ServerRequest.RequestListener() {
             @Override
             public void onRequestSuccess(String result) {

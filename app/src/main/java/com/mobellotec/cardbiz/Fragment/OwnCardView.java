@@ -35,6 +35,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 
+import me.grantland.widget.AutofitTextView;
+
 /**
  * Created by MobelloTech on 23-10-2015.
  */
@@ -103,7 +105,7 @@ public class OwnCardView extends Fragment implements View.OnClickListener {
                 JSONObject jsonObject = new JSONObject(frontJson);
                 JSONArray label = jsonObject.getJSONArray("label");
                 for (int j = 0; j < label.length(); j++) {
-                    TextView textView = new TextView(getActivity());
+                    AutofitTextView textView = new AutofitTextView(getActivity());
                     String array[] = label.getString(j).split(",");
                     setTextAlignment(array, textView, card, frontLayout);
                 }
@@ -156,7 +158,7 @@ public class OwnCardView extends Fragment implements View.OnClickListener {
 
                 JSONArray label = jsonObject.getJSONArray("label");
                 for (int j = 0; j < label.length(); j++) {
-                    TextView textView = new TextView(getActivity());
+                    AutofitTextView textView = new AutofitTextView(getActivity());
                     String array[] = label.getString(j).split(",");
                     setTextAlignment(array, textView, card, backLayout);
                 }
@@ -204,6 +206,8 @@ public class OwnCardView extends Fragment implements View.OnClickListener {
         try {
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(getPixels(getInt(array[3])), getPixels(getInt(array[4])));
             ImageView imageView = new ImageView(getActivity());
+            imageView.setMaxWidth(getPixels(getInt(array[3])));
+            imageView.setMaxHeight(getPixels(getInt(array[4])));
             params.topMargin = getPixels(getInt(array[2]));
             params.leftMargin = getPixels(getInt(array[1]));
             if (filePath.length() > 0) {
@@ -217,18 +221,21 @@ public class OwnCardView extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void setTextAlignment(String[] array, TextView textView, Card card, FrameLayout layout) {
+    private void setTextAlignment(String[] array, AutofitTextView textView, Card card, FrameLayout layout) {
         try {
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(getPixels(getInt(array[3])), getPixels(getInt(array[4])));
             textView.setWidth(getPixels(getInt(array[3])));
             textView.setHeight(getPixels(getInt(array[4])));
+            textView.setSingleLine();
+            textView.setMaxTextSize(Math.round(getFloat(array[6])));
+            textView.setMinTextSize(2);
+            textView.setTextColor(Color.parseColor(array[7]));
             params.topMargin = getPixels(getInt(array[2]));
             params.leftMargin = getPixels(getInt(array[1]));
             String alignment = array[8];
             String address1, address2;
             address1 = card.getBlock() + " " + card.getStreet();
             address2 = card.getCity() + " " + card.getCountry() + " " + card.getPostalCode();
-            textView.setSingleLine();
             switch (array[0]) {
                 case "name":
                     textView.setText(card.getFirstName() + " " + card.getLastName());
@@ -282,11 +289,11 @@ public class OwnCardView extends Fragment implements View.OnClickListener {
             switch (alignment) {
                 case "left":
                     textView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-                    textView.setPadding(getPixels(5), 0, 0, 0);
+//                    textView.setPadding(getPixels(5), 0, 0, 0);
                     break;
                 case "right":
                     textView.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-                    textView.setPadding(0, 0, getPixels(5), 0);
+//                    textView.setPadding(0, 0, getPixels(5), 0);
                     break;
                 case "top":
                     textView.setGravity(Gravity.TOP);
@@ -298,8 +305,6 @@ public class OwnCardView extends Fragment implements View.OnClickListener {
                     textView.setGravity(Gravity.CENTER);
                     break;
             }
-            textView.setTextSize(getFloat(array[6]));
-            textView.setTextColor(Color.parseColor(array[7]));
             for (String fileName : assetList) {
                 if (fileName.equalsIgnoreCase(array[5].toLowerCase().replaceAll("[-+.^:,]", "") + ".ttf")) {
                     textView.setTypeface(Typeface.createFromAsset(assetManager, "fonts/" + fileName));
@@ -314,32 +319,6 @@ public class OwnCardView extends Fragment implements View.OnClickListener {
             Utils.sendReport(getActivity(), e);
         }
     }
-
-    private void setCompanyBackLogo(String[] array, FrameLayout frameContainer, Bitmap bitmap) {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(getPixels(getInt(array[3])), getPixels(getInt(array[4])));
-        ImageView imageView = new ImageView(getActivity());
-        params.topMargin = getPixels(getInt(array[2]));
-        params.leftMargin = getPixels(getInt(array[1]));
-        imageView.setImageBitmap(bitmap);
-        /*if (companyLogo.length() > 0) {
-            Picasso.with(context).load(companyLogo).centerCrop().resize(getPixels(getInt(array[3])), getPixels(getInt(array[4]))).into(imageView);
-        }*/
-        imageView.setLayoutParams(params);
-        frameContainer.addView(imageView);
-    }
-
-    /*private void setCompanyLogo(String logoPosition, String logoPath) {
-        String array[] = logoPosition.split(",");
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(getPixels(getInt(array[2])), getPixels(getInt(array[3])));
-        ImageView imageView = new ImageView(getActivity());
-        params.topMargin = getPixels(getInt(array[1]));
-        params.leftMargin = getPixels(getInt(array[0]));
-        if (logoPath.length() > 0) {
-            Picasso.with(getActivity()).load(logoPath).centerCrop().resize(getPixels(getInt(array[2])), getPixels(getInt(array[3]))).into(imageView);
-        }
-        imageView.setLayoutParams(params);
-        frontLayout.addView(imageView);
-    }*/
 
     private int getPixels(int value) {
         float scale = this.getResources().getDisplayMetrics().density;

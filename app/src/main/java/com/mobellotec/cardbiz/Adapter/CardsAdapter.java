@@ -34,6 +34,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import me.grantland.widget.AutofitTextView;
+
 /**
  * Created by MobelloTech on 29-07-2015.
  */
@@ -110,7 +112,7 @@ public class CardsAdapter extends PagerAdapter {
                 companyLogo = cards.get(position).getCompanyLogoBitmap();
                 JSONArray label = jsonCardFront.getJSONArray("label");
                 for (int j = 0; j < label.length(); j++) {
-                    TextView textView = new TextView(context);
+                    AutofitTextView textView = new AutofitTextView(context);
                     String array[] = label.getString(j).split(",");
                     setTextAlignment(array, textView, position, frontContainer);
                 }
@@ -161,7 +163,7 @@ public class CardsAdapter extends PagerAdapter {
                 JSONArray label = jsonCardBack.getJSONArray("label");
                 companyLogo = cards.get(position).getCompanyLogoBitmap();
                 for (int j = 0; j < label.length(); j++) {
-                    TextView textView = new TextView(context);
+                    AutofitTextView textView = new AutofitTextView(context);
                     String array[] = label.getString(j).split(",");
                     setTextAlignment(array, textView, position, backContainer);
                 }
@@ -207,6 +209,8 @@ public class CardsAdapter extends PagerAdapter {
     private void setCompanyBackLogo(String[] array, FrameLayout frameContainer, String path) {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(getPixels(getInt(array[3])), getPixels(getInt(array[4])));
         ImageView imageView = new ImageView(context);
+        imageView.setMaxWidth(getPixels(getInt(array[3])));
+        imageView.setMaxHeight(getPixels(getInt(array[4])));
         params.topMargin = getPixels(getInt(array[2]));
         params.leftMargin = getPixels(getInt(array[1]));
         String fileName = Helper.getFileNameFromUrl(path);
@@ -230,17 +234,21 @@ public class CardsAdapter extends PagerAdapter {
         frameContainer.addView(imageView);
     }
 
-    private void setTextAlignment(String[] array, TextView textView, int position, FrameLayout layout) {
+    private void setTextAlignment(String[] array, AutofitTextView textView, int position, FrameLayout layout) {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(getPixels(getInt(array[3])), getPixels(getInt(array[4])));
         textView.setWidth(getPixels(getInt(array[3])));
         textView.setHeight(getPixels(getInt(array[4])));
+        textView.setSingleLine();
+        textView.setMaxTextSize(Math.round(getFloat(array[6])));
+        textView.setMinTextSize(2);
+        textView.setTextColor(Color.parseColor(array[7]));
         params.topMargin = getPixels(getInt(array[2]));
         params.leftMargin = getPixels(getInt(array[1]));
         String alignment = array[8];
         String address1, address2;
         address1 = cards.get(position).getBlock() + " " + cards.get(position).getStreet();
         address2 = cards.get(position).getCity() + " " + cards.get(position).getCountry() + " " + cards.get(position).getPostalCode();
-//        textView.setSingleLine();
+
         switch (array[0]) {
             case "name":
                 textView.setText(cards.get(position).getFirstName() + " " + cards.get(position).getLastName());
@@ -294,11 +302,11 @@ public class CardsAdapter extends PagerAdapter {
         switch (alignment) {
             case "left":
                 textView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-                textView.setPadding(getPixels(5), 0, 0, 0);
+//                textView.setPadding(getPixels(5), 0, 0, 0);
                 break;
             case "right":
                 textView.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-                textView.setPadding(0, 0, getPixels(5), 0);
+//                textView.setPadding(0, 0, getPixels(5), 0);
                 break;
             case "top":
                 textView.setGravity(Gravity.TOP);
@@ -310,8 +318,6 @@ public class CardsAdapter extends PagerAdapter {
                 textView.setGravity(Gravity.CENTER);
                 break;
         }
-        textView.setTextSize(getFloat(array[6]));
-        textView.setTextColor(Color.parseColor(array[7]));
         for (String fileName : assetList) {
             if (fileName.equalsIgnoreCase(array[5].toLowerCase().replaceAll("[-+.^:,]", "") + ".ttf")) {
                 textView.setTypeface(Typeface.createFromAsset(assetManager, "fonts/" + fileName));
@@ -336,43 +342,10 @@ public class CardsAdapter extends PagerAdapter {
         return Float.parseFloat(value);
     }
 
-    private void setCompanyLogo(String logoPosition, FrameLayout frameContainer) {
-        String array[] = logoPosition.split(",");
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(getPixels(getInt(array[2])), getPixels(getInt(array[3])));
-        ImageView imageView = new ImageView(context);
-        params.topMargin = getPixels(getInt(array[1]));
-        params.leftMargin = getPixels(getInt(array[0]));
-
-        imageView.setImageBitmap(companyLogo);
-//        Picasso.with(context).load(companyLogo).centerCrop().resize(getPixels(getInt(array[2])), getPixels(getInt(array[3]))).into(imageView);
-        imageView.setLayoutParams(params);
-        frameContainer.addView(imageView);
-    }
-
     public class ViewHolder {
         private FrameLayout frontContainer, backContainer;
         private ProgressBar frontProgressBar, backProgressBar;
         private TextView noCardFront, noCardBack;
     }
 
-    private Bitmap downloadImage(String backgroundImage) {
-        final Bitmap[] bitmap = {null};
-        if (backgroundImage.length() > 0) {
-            String fileName = Helper.getFileNameFromUrl(backgroundImage);
-            File file = new File(Helper.sdCardRoot + "/" + fileName);
-            if (file.exists()) {
-                bitmap[0] = Helper.getBitmap(file.getAbsolutePath());
-                return bitmap[0];
-            } else {
-                new TemplatesDownload(context, fileName, backgroundImage, new TemplatesDownload.ImageLoaderListener() {
-                    @Override
-                    public void onSuccess(String filePath, FrameLayout frontLayout, ProgressBar progressBar) {
-                        bitmap[0] = Helper.getBitmap(filePath);
-                    }
-                }).execute();
-                return bitmap[0];
-            }
-        }
-        return null;
-    }
 }
