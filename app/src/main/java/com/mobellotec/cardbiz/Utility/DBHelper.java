@@ -34,6 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     private static final String CARD_TBL_NAME = "card";
     private static final String CONTACT_TABLE_NAME = "contact";
+    private static final String EMAIL_TABLE_NAME = "email_contact";
     private static final String GROUP_SELECTED_CARD_TABLE_NAME = "group_selected_card_table";
     private static final String SHARED_CARD_TABLE_NAME = "shared_card_table";
     private static final String NEAR_BY_SELECTED_CARD_TABLE_NAME = "near_by_selected_card_table";
@@ -105,6 +106,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String CONTACT_TABLE = "create table if not exists " + CONTACT_TABLE_NAME + "(" + Constants.CONTACT_ID + " text, " + Constants.CONTACT_NUMBER + " text , " + Constants.CONTACT_NAME + " text , " + Constants.CONTACT_SELECTED + " integer);";
 
+    private static final String EMAIL_TABLE = "create table if not exists " + EMAIL_TABLE_NAME + "(" + Constants.CONTACT_EMAIL_ID + " text, " + Constants.CONTACT_EMAIL_EMAIL + " text , " + Constants.CONTACT_EMAIL_NAME + " text , " + Constants.CONTACT_EMAIL_SELECTED + " integer);";
+
     private static final String GROUP_TABLE = "create table if not exists " + GROUP_SELECTED_CARD_TABLE_NAME + "(" + GROUP_ID + " text, "
             + GROUP_SELECTED_CARD_ID + " text, " + GROUP_SELECTED_CARD_NAME + " text);";
 
@@ -122,6 +125,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CARD_TABLE);
         db.execSQL(CONTACT_TABLE);
+        db.execSQL(EMAIL_TABLE);
         db.execSQL(GROUP_TABLE);
         db.execSQL(SHARED_CARD_TABLE);
         db.execSQL(NEAR_BY_SELECTED_TABLE);
@@ -131,6 +135,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + CARD_TBL_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + CONTACT_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + EMAIL_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + GROUP_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SHARED_CARD_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + NEAR_BY_SELECTED_TABLE);
@@ -174,6 +179,47 @@ public class DBHelper extends SQLiteOpenHelper {
             e.printStackTrace();
             Utils.sendReport(context, e);
         }
+        database.close();
+        return contactList;
+    }
+
+    public void insertEmailContact(Contact contact) {
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(Constants.CONTACT_EMAIL_ID, contact.getId());
+            values.put(Constants.CONTACT_EMAIL_NAME, contact.getName());
+            values.put(Constants.CONTACT_EMAIL_EMAIL, contact.getEmail());
+            values.put(Constants.CONTACT_EMAIL_SELECTED, contact.getIsSelected());
+            database.insert(EMAIL_TABLE_NAME, null, values);
+            database.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utils.sendReport(context, e);
+        }
+    }
+
+    public ArrayList<Contact> getEmailContact() {
+        ArrayList<Contact> contactList = new ArrayList<Contact>();
+        SQLiteDatabase database = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + EMAIL_TABLE_NAME + " ORDER BY " + Constants.CONTACT_EMAIL_NAME + " ASC;";
+        try {
+            Cursor cursor = database.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Contact contact = new Contact();
+                    contact.setId(cursor.getString(cursor.getColumnIndex(Constants.CONTACT_EMAIL_ID)));
+                    contact.setName(cursor.getString(cursor.getColumnIndex(Constants.CONTACT_EMAIL_NAME)));
+                    contact.setEmail(cursor.getString(cursor.getColumnIndex(Constants.CONTACT_EMAIL_EMAIL)));
+                    contact.setIsSelected(cursor.getInt(cursor.getColumnIndex(Constants.CONTACT_EMAIL_SELECTED)));
+                    contactList.add(contact);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utils.sendReport(context, e);
+        }
 
         database.close();
         return contactList;
@@ -191,12 +237,37 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void updateEmailContactSelected(String id, int isSelected) {
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String updateQuery = "UPDATE " + EMAIL_TABLE_NAME + " SET " + Constants.CONTACT_EMAIL_SELECTED + " = '" + isSelected + "' WHERE " + Constants.CONTACT_EMAIL_ID + " = '" + id + "'";
+            db.execSQL(updateQuery);
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utils.sendReport(context, e);
+        }
+    }
+
     public void updateAllContactSelected(int isSelected) {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put(Constants.CONTACT_SELECTED, isSelected);
             db.update(CONTACT_TABLE_NAME, values, null, null);
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utils.sendReport(context, e);
+        }
+    }
+
+    public void updateAllEmailContactSelected(int isSelected) {
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(Constants.CONTACT_EMAIL_SELECTED, isSelected);
+            db.update(EMAIL_TABLE_NAME, values, null, null);
             db.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -230,10 +301,48 @@ public class DBHelper extends SQLiteOpenHelper {
         return contactList;
     }
 
+
+    public ArrayList<Contact> getSelectedEmailContact() {
+        ArrayList<Contact> contactList = new ArrayList<Contact>();
+        SQLiteDatabase database = this.getReadableDatabase();
+        try {
+            String selectQuery = "SELECT  * FROM " + EMAIL_TABLE_NAME + " WHERE " + Constants.CONTACT_EMAIL_SELECTED + " = " + 1;
+            Cursor cursor = database.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Contact contact = new Contact();
+                    contact.setId(cursor.getString(cursor.getColumnIndex(Constants.CONTACT_EMAIL_ID)));
+                    contact.setName(cursor.getString(cursor.getColumnIndex(Constants.CONTACT_EMAIL_NAME)));
+                    contact.setEmail(cursor.getString(cursor.getColumnIndex(Constants.CONTACT_EMAIL_EMAIL)));
+                    contact.setIsSelected(cursor.getInt(cursor.getColumnIndex(Constants.CONTACT_EMAIL_SELECTED)));
+                    contactList.add(contact);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utils.sendReport(context, e);
+        }
+
+        database.close();
+        return contactList;
+    }
+
     public void deleteContact() {
         try {
             SQLiteDatabase database = this.getWritableDatabase();
             database.delete(CONTACT_TABLE_NAME, null, null);
+            database.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utils.sendReport(context, e);
+        }
+    }
+
+    public void deleteEmailContact() {
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+            database.delete(EMAIL_TABLE_NAME, null, null);
             database.close();
         } catch (Exception e) {
             e.printStackTrace();

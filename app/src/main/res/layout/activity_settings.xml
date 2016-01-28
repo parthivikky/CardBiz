@@ -41,10 +41,10 @@
                 android:layout_height="wrap_content"
                 android:background="#f0eff5"
                 android:padding="10dp"
+                android:singleLine="true"
                 android:text="APPLICATION SETTINGS"
                 android:textColor="#8b8a90"
-                android:textSize="19sp"
-                android:singleLine="true"/>
+                android:textSize="19sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -57,10 +57,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:singleLine="true"
                     android:text="Version"
                     android:textColor="#000000"
-                    android:textSize="19sp"
-                    android:singleLine="true"/>
+                    android:textSize="19sp" />
 
 
                 <TextView
@@ -68,9 +68,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="19sp"
-                    android:singleLine="true"/>
+                    android:textSize="19sp" />
 
             </RelativeLayout>
 
@@ -92,19 +92,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:singleLine="true"
                     android:text="Build"
                     android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:singleLine="true"/>
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/build"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="20sp"
-                    android:singleLine="true"/>
+                    android:textSize="20sp" />
 
             </RelativeLayout>
 
@@ -118,10 +118,10 @@
                 android:layout_height="wrap_content"
                 android:background="#f0eff5"
                 android:padding="10dp"
+                android:singleLine="true"
                 android:text="USER SETTINGS"
                 android:textColor="#000000"
-                android:textSize="19sp"
-                android:singleLine="true"/>
+                android:textSize="19sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -134,19 +134,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:singleLine="true"
                     android:text="First Name"
                     android:textColor="#000000"
-                    android:textSize="19sp"
-                    android:singleLine="true"/>
+                    android:textSize="19sp" />
 
                 <TextView
                     android:id="@+id/firstName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="19sp"
-                    android:singleLine="true"/>
+                    android:textSize="19sp" />
 
             </RelativeLayout>
 
@@ -168,19 +168,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:singleLine="true"
                     android:text="Last Name"
                     android:textColor="#000000"
-                    android:textSize="19sp"
-                    android:singleLine="true"/>
+                    android:textSize="19sp" />
 
                 <TextView
                     android:id="@+id/lastName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="19sp"
-                    android:singleLine="true"/>
+                    android:textSize="19sp" />
 
             </RelativeLayout>
 
@@ -202,19 +202,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:singleLine="true"
                     android:text="Email Address"
                     android:textColor="#000000"
-                    android:textSize="19sp"
-                    android:singleLine="true"/>
+                    android:textSize="19sp" />
 
                 <TextView
                     android:id="@+id/email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="19sp"
-                    android:singleLine="true"/>
+                    android:textSize="19sp" />
 
             </RelativeLayout>
 
@@ -236,19 +236,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:singleLine="true"
                     android:text="Phone Number"
                     android:textColor="#000000"
-                    android:textSize="19sp"
-                    android:singleLine="true"/>
+                    android:textSize="19sp" />
 
                 <TextView
                     android:id="@+id/phoneNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="19sp"
-                    android:singleLine="true"/>
+                    android:textSize="19sp" />
 
             </RelativeLayout>
 
@@ -262,30 +262,74 @@
                 android:layout_height="wrap_content"
                 android:background="#f0eff5"
                 android:padding="10dp"
+                android:singleLine="true"
                 android:text="INVITE"
                 android:textColor="#000000"
-                android:textSize="19sp"
-                android:singleLine="true"
-                />
+                android:textSize="19sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
-                android:gravity="center_vertical"
-                android:padding="10dp">
+                android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/invite"
+                    android:id="@+id/invite_sms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="Invite Friends from Contact Book"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/right_arrow_small"
+                    android:singleLine="true"
+                    android:text="Invite Friends via SMS"
                     android:textColor="#000000"
                     android:textSize="19sp"
-                    android:singleLine="true"
+                    android:layout_margin="10dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/invite_sms"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#f0eff5" />
+
+                <TextView
+                    android:id="@+id/invite_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/invite_sms"
+                    android:drawablePadding="10dp"
                     android:drawableRight="@drawable/right_arrow_small"
-                    android:drawablePadding="10dp"/>
+                    android:singleLine="true"
+                    android:text="Invite Friends via Email"
+                    android:textColor="#000000"
+                    android:textSize="19sp"
+                    android:layout_margin="10dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/invite_email"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#f0eff5"
+                    />
+
+                <TextView
+                    android:id="@+id/invite_facebook"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/invite_email"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/right_arrow_small"
+                    android:singleLine="true"
+                    android:text="Invite Friends via Facebook"
+                    android:textColor="#000000"
+                    android:textSize="19sp"
+                    android:layout_margin="10dp"/>
             </RelativeLayout>
 
             <View
@@ -298,10 +342,10 @@
                 android:layout_height="wrap_content"
                 android:background="#f0eff5"
                 android:padding="10dp"
+                android:singleLine="true"
                 android:text="TERMS"
                 android:textColor="#000000"
-                android:textSize="19sp"
-                android:singleLine="true"/>
+                android:textSize="19sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -315,12 +359,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/right_arrow_small"
+                    android:singleLine="true"
                     android:text="Privacy Policy"
                     android:textColor="#000000"
-                    android:textSize="19sp"
-                    android:singleLine="true"
-                    android:drawableRight="@drawable/right_arrow_small"
-                    android:drawablePadding="10dp"/>
+                    android:textSize="19sp" />
 
             </RelativeLayout>
 
@@ -343,12 +387,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/right_arrow_small"
+                    android:singleLine="true"
                     android:text="Terms and Conditions"
                     android:textColor="#000000"
-                    android:textSize="19sp"
-                    android:singleLine="true"
-                    android:drawableRight="@drawable/right_arrow_small"
-                    android:drawablePadding="10dp"/>
+                    android:textSize="19sp" />
 
             </RelativeLayout>
 

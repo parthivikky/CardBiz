@@ -15,12 +15,13 @@ import com.facebook.login.LoginManager;
 import com.mobellotec.cardbiz.BuildConfig;
 import com.mobellotec.cardbiz.R;
 import com.mobellotec.cardbiz.Utility.AppPreference;
+import com.mobellotec.cardbiz.Utility.Constants;
 import com.mobellotec.cardbiz.Utility.Helper;
 import com.mobellotec.cardbiz.Utility.Utils;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView logout, firstName, lastName, email, phoneNo, build, version, invite, privacy, terms;
+    TextView logout, firstName, lastName, email, phoneNo, build, version, invite_sms,invite_facebook,invite_email, privacy, terms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +40,14 @@ public class SettingsActivity extends AppCompatActivity {
             e.printStackTrace();
             Utils.sendReport(SettingsActivity.this, e);
         }
-        logout.setOnClickListener(new View.OnClickListener() {
+        /*logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showLogoutDialog();
             }
         });
 
-        invite.setOnClickListener(new View.OnClickListener() {
+        invite_sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -80,8 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
                     Utils.sendReport(SettingsActivity.this, e);
                 }
             }
-        });
-
+        });*/
     }
 
     private void initViews() {
@@ -92,9 +92,17 @@ public class SettingsActivity extends AppCompatActivity {
         phoneNo = (TextView) findViewById(R.id.phoneNo);
         version = (TextView) findViewById(R.id.version);
         build = (TextView) findViewById(R.id.build);
-        invite = (TextView) findViewById(R.id.invite);
+        invite_sms = (TextView) findViewById(R.id.invite_sms);
+        invite_email = (TextView) findViewById(R.id.invite_email);
+        invite_facebook = (TextView) findViewById(R.id.invite_facebook);
         privacy = (TextView) findViewById(R.id.privacy);
         terms = (TextView) findViewById(R.id.terms);
+        invite_sms.setOnClickListener(this);
+        invite_email.setOnClickListener(this);
+        invite_facebook.setOnClickListener(this);
+        privacy.setOnClickListener(this);
+        terms.setOnClickListener(this);
+        logout.setOnClickListener(this);
     }
 
     private void showLogoutDialog() {
@@ -136,6 +144,30 @@ public class SettingsActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
             Utils.sendReport(SettingsActivity.this, e);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.logout:
+                showLogoutDialog();
+                break;
+            case R.id.terms:
+                startActivity(new Intent(SettingsActivity.this, PrivacyPolicyActivity.class).putExtra("privacy", false));
+                break;
+            case R.id.privacy:
+                startActivity(new Intent(SettingsActivity.this, PrivacyPolicyActivity.class).putExtra("privacy", true));
+                break;
+            case R.id.invite_sms:
+                startActivity(new Intent(SettingsActivity.this, ContactsActivity.class).putExtra("invite_type", Constants.INVITE_SMS));
+                break;
+            case R.id.invite_email:
+                startActivity(new Intent(SettingsActivity.this, EmailActivity.class));
+                break;
+            case R.id.invite_facebook:
+                startActivity(new Intent(SettingsActivity.this, ContactsActivity.class).putExtra("invite_type", Constants.INVITE_FACEBOOK));
+                break;
         }
     }
 }

@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mobellotec.cardbiz" >
+    package="com.mobellotec.cardbiz">
 
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
-    <uses-feature android:name="android.hardware.location" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <supports-screens android:smallScreens="true" android:normalScreens="true"
-         android:largeScreens="true" android:requiresSmallestWidthDp="320" />
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:requiresSmallestWidthDp="320"
+        android:smallScreens="true" />
 
     <uses-permission android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -47,21 +53,22 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.mobellotec.cardbiz.permission.MAPS_RECEIVE" />
-<!--    android:name="android.support.multidex.MultiDexApplication"-->
+
+    <!-- android:name="android.support.multidex.MultiDexApplication" -->
     <application
         android:name=".Utility.CardBizApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".Activity.SplashActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <!-- <action android:name="android.intent.action.VIEW" /> -->
@@ -78,7 +85,7 @@
         <receiver
             android:name=".PushNotification.GcmBroadcastReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -89,7 +96,7 @@
 
         <service
             android:name=".PushNotification.GcmNotificationService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
@@ -160,7 +167,7 @@
         <activity
             android:name=".Activity.SharedCardViewActivity"
             android:label="@string/title_activity_shared_card_view"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
 
             <!--
             <intent-filter>
@@ -173,7 +180,7 @@
         </activity>
         <activity
             android:name=".Activity.ShareSplashActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -192,12 +199,10 @@
             android:label="@string/title_activity_no_card" />
         <activity android:name=".Activity.SettingsActivity" />
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".Activity.ContactsActivity" >
-        </activity>
-        <activity android:name=".Activity.EditCardActivity" >
-        </activity>
-        <activity android:name=".Activity.PrivacyPolicyActivity" >
-        </activity>
+        <activity android:name=".Activity.ContactsActivity"></activity>
+        <activity android:name=".Activity.EditCardActivity"></activity>
+        <activity android:name=".Activity.PrivacyPolicyActivity"></activity>
+        <activity android:name=".Activity.EmailActivity"></activity>
     </application>
 
 </manifest>

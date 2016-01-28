@@ -37,12 +37,21 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
     private LayoutInflater inflater;
     private TextView invites;
     private DBHelper dbHelper;
+    private int type;
 
-    public ContactAdapter(Context context, TextView invites) {
+    public ContactAdapter(Context context, TextView invites,int type) {
         dbHelper = new DBHelper(context);
-        this.contacts = dbHelper.getContact();
         this.context = context;
         this.invites = invites;
+        this.type = type;
+        switch (type){
+            case Constants.INVITE_SMS:
+                this.contacts = dbHelper.getContact();
+                break;
+            case Constants.INVITE_EMAIL:
+                this.contacts = dbHelper.getEmailContact();
+                break;
+        }
     }
 
     @Override
@@ -71,8 +80,18 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
             view = convertView;
         }
         viewHolder.name = (TextView) view.findViewById(R.id.name);
+        viewHolder.phoneNo = (TextView) view.findViewById(R.id.phoneNo);
         viewHolder.checkBox = (CheckBox) view.findViewById(R.id.checkbox);
         viewHolder.name.setText(contacts.get(position).getName());
+        switch (type){
+            case Constants.INVITE_SMS:
+                viewHolder.phoneNo.setText(contacts.get(position).getPhone());
+                break;
+            case Constants.INVITE_EMAIL:
+                viewHolder.phoneNo.setText(contacts.get(position).getEmail());
+                break;
+        }
+
         viewHolder.checkBox.setChecked(contacts.get(position).getIsSelected() == 1);
 
         viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
@@ -80,13 +99,34 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
             public void onClick(View v) {
                 if (contacts.get(position).getIsSelected() == 1) {
                     contacts.get(position).setIsSelected(0);
-                    dbHelper.updateContactSelected(contacts.get(position).getId(),0);
+                    switch (type){
+                        case Constants.INVITE_SMS:
+                            dbHelper.updateContactSelected(contacts.get(position).getId(),0);
+                            break;
+                        case Constants.INVITE_EMAIL:
+                            dbHelper.updateEmailContactSelected(contacts.get(position).getId(),0);
+                            break;
+                    }
                 }
                 else {
                     contacts.get(position).setIsSelected(1);
-                    dbHelper.updateContactSelected(contacts.get(position).getId(),1);
+                    switch (type){
+                        case Constants.INVITE_SMS:
+                            dbHelper.updateContactSelected(contacts.get(position).getId(),1);
+                            break;
+                        case Constants.INVITE_EMAIL:
+                            dbHelper.updateEmailContactSelected(contacts.get(position).getId(),1);
+                            break;
+                    }
                 }
-                invites.setText("Invite(" + dbHelper.getSelectedContact().size() + ")");
+                switch (type){
+                    case Constants.INVITE_SMS:
+                        invites.setText("Invite(" + dbHelper.getSelectedContact().size() + ")");
+                        break;
+                    case Constants.INVITE_EMAIL:
+                        invites.setText("Invite(" + dbHelper.getSelectedEmailContact().size() + ")");
+                        break;
+                }
                 notifyDataSetChanged();
             }
         });
@@ -128,7 +168,7 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
 
     public class ViewHolder {
         CheckBox checkBox;
-        TextView name;
+        TextView name,phoneNo;
     }
 
     public class HeaderViewHolder {

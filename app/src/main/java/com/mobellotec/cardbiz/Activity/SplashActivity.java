@@ -51,6 +51,7 @@ public class SplashActivity extends AppCompatActivity {
 
             AppPreference.setBoolean(SplashActivity.this, "ENTERED_FIRST_TIME", true);
             AppPreference.setBoolean(SplashActivity.this, "CONTACTS_FIRST_TIME", true);
+            AppPreference.setBoolean(SplashActivity.this, "EMAIL_FIRST_TIME", true);
 
             if (!isGCMEnabled()) {
                 CommonClass.showMessageToast(SplashActivity.this, "Device not supported GCM");

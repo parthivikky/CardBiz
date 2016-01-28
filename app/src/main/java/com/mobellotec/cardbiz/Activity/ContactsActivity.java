@@ -22,6 +22,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.mobellotec.cardbiz.Adapter.ContactAdapter;
 import com.mobellotec.cardbiz.Model.ApiStatus;
 import com.mobellotec.cardbiz.Model.Contact;
@@ -58,25 +62,36 @@ public class ContactsActivity extends AppCompatActivity {
     private DBHelper dbHelper;
     private ContactAdapter adapter;
 
+    private ArrayList<String> fbFriendsId = new ArrayList<>();
+    private ArrayList<String> fbFriendsName = new ArrayList<>();
+    private static int invite_type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
         try {
             initViews();
-
             Boolean entered_first_time = AppPreference.getBoolean(this, "CONTACTS_FIRST_TIME");
+            invite_type = getIntent().getIntExtra("invite_type", 0);
             if (entered_first_time) {
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                         != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS},
                             REQUEST_READ_CONTACTS);
-                }else {
-                    new ContactInfo().execute();
+                } else {
+                    switch (invite_type) {
+                        case Constants.INVITE_SMS:
+                            new ContactInfo().execute();
+                            break;
+                        case Constants.INVITE_FACEBOOK:
+                            getFacebookFriendsList();
+                            break;
+                    }
                 }
                 AppPreference.setBoolean(this, "CONTACTS_FIRST_TIME", false);
             } else {
-                adapter = new ContactAdapter(ContactsActivity.this, invites);
+                adapter = new ContactAdapter(ContactsActivity.this, invites,Constants.INVITE_SMS);
                 listView.setAdapter(adapter);
             }
         } catch (Exception e) {
@@ -191,8 +206,78 @@ public class ContactsActivity extends AppCompatActivity {
         }
     }
 
-    public class ContactInfo extends AsyncTask<Void, Void, Void> {
+    private void getFacebookFriendsList() {
+        if (AccessToken.getCurrentAccessToken() != null) {
+            GraphRequest request = new GraphRequest(AccessToken.getCurrentAccessToken(), "/" + AccessToken.getCurrentAccessToken().getUserId() + "/friends", null, HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        @Override
+                        public void onCompleted(GraphResponse response) {
+                            Log.i("response", " " + response.getJSONObject());
+//                            parsonFriendList(response.getJSONObject());
+                        }
+                    });
+            /*GraphRequest request = GraphRequest.newMyFriendsRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    new GraphRequest.GraphJSONArrayCallback() {
+                        @Override
+                        public void onCompleted(JSONArray objects, GraphResponse response) {
+                            Log.i("JSONArray"," "+objects);
+                        }
+                    });*/
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id,name");
+            request.setParameters(parameters);
+            request.executeAsync();
+        }
+    }
 
+    /*private void parsonFriendList(JSONObject jsonObject) {
+        try {
+            JSONArray friendsArray = jsonObject.getJSONArray("data");
+            for (int i = 0; i < friendsArray.length(); i++) {
+                fbFriendsId.add(friendsArray.getJSONObject(i).getString("id"));
+            }
+            getFriendData(fbFriendsId);
+            getNextPageFriendsList(jsonObject.getJSONObject("paging").getString("next"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getNextPageFriendsList(String path) {
+        new GraphRequest(AccessToken.getCurrentAccessToken(), path, null, HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+                        Log.i("response", " " + response.getJSONObject());
+                        parsonFriendList(response.getJSONObject());
+                    }
+                }).executeAsync();
+    }
+
+    private void getFriendData(ArrayList<String> fbFriendsId) {
+        for (int i = 0; i < fbFriendsId.size(); i++) {
+            GraphRequest request = new GraphRequest(AccessToken.getCurrentAccessToken(), "/" + fbFriendsId.get(i), null, HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        @Override
+                        public void onCompleted(GraphResponse response) {
+                            Log.i("response", " " + response.getJSONObject());
+                            *//*try {
+                                fbFriendsName.add(response.getJSONObject().getString("name"));
+                                Log.i("name",response.getJSONObject().getString("name"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }*//*
+                        }
+                    });
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id,name");
+            request.setParameters(parameters);
+            request.executeAsync();
+        }
+    }*/
+
+    public class ContactInfo extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -221,7 +306,7 @@ public class ContactsActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             try {
                 CommonClass.dismissProgress();
-                adapter = new ContactAdapter(ContactsActivity.this, invites);
+                adapter = new ContactAdapter(ContactsActivity.this, invites,Constants.INVITE_SMS);
                 listView.setAdapter(adapter);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -236,7 +321,6 @@ public class ContactsActivity extends AppCompatActivity {
         String[] projection = new String[]{ContactsContract.Contacts._ID, ContactsContract.Contacts.HAS_PHONE_NUMBER, ContactsContract.Contacts.DISPLAY_NAME};
         ContentResolver cr = getContentResolver();
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, projection, null, null, null);
-        Log.i("count", "" + cur.getCount());
         if (cur.getCount() > 0) {
             int idColumnIndex = cur.getColumnIndex(ContactsContract.Contacts._ID);
             int nameColumnIndex = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
@@ -255,13 +339,15 @@ public class ContactsActivity extends AppCompatActivity {
                     }
                     pCur.close();
                     if (phone != null || !TextUtils.isEmpty(phone)) {
-                        dbHelper.insertContact(new Contact(id, name, phone, 0));
+                        dbHelper.insertContact(new Contact(id, name, phone,null, 0));
                     }
                 }
             }
         }
         cur.close();
     }
+
+
 
     private String getLink(String url) {
         if (url != null)
@@ -272,15 +358,14 @@ public class ContactsActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.i("sdfsfs","dfsfdsfd");
         if (requestCode == REQUEST_READ_CONTACTS) {
-            if(grantResults.length == 1
+            if (grantResults.length == 1
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // We can now safely use the API we requested access to
                 new ContactInfo().execute();
             } else {
                 // Permission was denied or request was cancelled
-                Toast.makeText(ContactsActivity.this,"You can not use without permission.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ContactsActivity.this, "You can not use without permission.", Toast.LENGTH_SHORT).show();
             }
         }
     }

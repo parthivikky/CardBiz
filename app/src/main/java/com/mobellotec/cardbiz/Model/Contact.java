@@ -8,15 +8,25 @@ public class Contact {
     private String id;
     private String name;
     private String phone;
+    private String email;
     private int isSelected;
 
     public Contact(){}
 
-    public Contact(String id,String name, String phone,int isSelected) {
+    public Contact(String id,String name, String phone,String email,int isSelected) {
         this.id = id;
         this.name = name;
         this.phone = phone;
+        this.email = email;
         this.isSelected = isSelected;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getId() {

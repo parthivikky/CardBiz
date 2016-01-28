@@ -44,6 +44,10 @@ public class Constants {
     public static final String CONTACT_USER_ID = "user_id";
     public static final String CONTACT_SUFFIX_NAME = "user_suffix_name";
     public static final String CONTACT_ID = "contact_id";
+    public static final String CONTACT_EMAIL_ID = "contact_email_id";
+    public static final String CONTACT_EMAIL_NAME = "contact_email_name";
+    public static final String CONTACT_EMAIL_EMAIL = "contact_email_email";
+    public static final String CONTACT_EMAIL_SELECTED = "contact_email_selected";
     public static final String USER_TYPE = "user_type";
     public static final String NEW_USER = "0";
     public static final String EXIST_USER = "1";
@@ -73,4 +77,9 @@ public class Constants {
 
     public static final String APP_GOOGLE_PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.mobellotec.cardbiz&hl=en";
     public static final String APP_APPLE_STORE_URL = "http://itunes.apple.com/app/id1062751426";
+
+    public static final int INVITE_SMS = 1;
+    public static final int INVITE_EMAIL = 2;
+    public static final int INVITE_FACEBOOK = 3;
+
 }

@@ -100,7 +100,7 @@ public class LoginFragment extends Fragment {
                 StrictMode.setThreadPolicy(policy);
             }
 
-            facebook.setReadPermissions(Arrays.asList("public_profile", "email"));
+            facebook.setReadPermissions(Arrays.asList("public_profile", "email","user_about_me","user_friends"));
             facebook.setFragment(this);
             callbackManager = CallbackManager.Factory.create();
 
@@ -341,6 +341,7 @@ public class LoginFragment extends Fragment {
                 @Override
                 public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
                     try {
+                        Log.i("jsonObject",jsonObject.toString());
                         first_name = jsonObject.getString("first_name");
                         last_name = jsonObject.getString("last_name");
                         email_id = jsonObject.getString("email");
