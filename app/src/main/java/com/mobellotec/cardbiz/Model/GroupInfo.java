@@ -42,9 +42,6 @@ public class GroupInfo {
         this.companyName = companyName;
     }
 
-
-
-
     public String getCardID() {
         return cardID;
     }

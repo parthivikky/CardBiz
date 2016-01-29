@@ -42,7 +42,6 @@ public class GroupInfoResult {
             this.groupCode = groupCode;
         }
 
-
         public List<GroupInfo> getMembers() {
             return members;
         }

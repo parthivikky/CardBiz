@@ -166,7 +166,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(SettingsActivity.this, EmailActivity.class));
                 break;
             case R.id.invite_facebook:
-                startActivity(new Intent(SettingsActivity.this, ContactsActivity.class).putExtra("invite_type", Constants.INVITE_FACEBOOK));
+                startActivity(new Intent(SettingsActivity.this, FacebookInviteActivity.class));
                 break;
         }
     }

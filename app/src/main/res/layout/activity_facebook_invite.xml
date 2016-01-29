@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mobellotec.cardbiz.Activity.FacebookInviteActivity"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/app_primary_color"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/home_title"
+            style="@style/actionbar_title_layout"
+            android:text="Facebook Invite" />
+
+        <!--<TextView
+            android:id="@+id/invites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:text="Invite(0)"
+            android:textColor="@color/app_secondary_white_color"
+            android:textSize="18sp" />-->
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/warning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Facebook does not allow to fetch user friends and share the Google play store link and App store link."
+        android:textColor="#ff0000"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:textSize="15sp"/>
+
+    <com.facebook.share.widget.SendButton
+        android:id="@+id/messenger_send_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/warning"
+        android:layout_margin="10dp"
+        android:background="@color/app_primary_blue_button_color"
+        android:text="Send Message"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+</RelativeLayout>
