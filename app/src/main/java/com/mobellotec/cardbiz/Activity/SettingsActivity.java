@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
+import com.facebook.share.model.AppInviteContent;
+import com.facebook.share.widget.AppInviteDialog;
 import com.mobellotec.cardbiz.BuildConfig;
 import com.mobellotec.cardbiz.R;
 import com.mobellotec.cardbiz.Utility.AppPreference;
@@ -21,7 +23,7 @@ import com.mobellotec.cardbiz.Utility.Utils;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView logout, firstName, lastName, email, phoneNo, build, version, invite_sms,invite_facebook,invite_email, privacy, terms;
+    TextView logout, firstName, lastName, email, phoneNo, build, version, invite_sms, invite_facebook, invite_email, privacy, terms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,48 +42,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             e.printStackTrace();
             Utils.sendReport(SettingsActivity.this, e);
         }
-        /*logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showLogoutDialog();
-            }
-        });
-
-        invite_sms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    startActivity(new Intent(SettingsActivity.this, ContactsActivity.class));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Utils.sendReport(SettingsActivity.this, e);
-                }
-            }
-        });
-
-        privacy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    startActivity(new Intent(SettingsActivity.this, PrivacyPolicyActivity.class).putExtra("privacy", true));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Utils.sendReport(SettingsActivity.this, e);
-                }
-            }
-        });
-
-        terms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    startActivity(new Intent(SettingsActivity.this, PrivacyPolicyActivity.class).putExtra("privacy", false));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Utils.sendReport(SettingsActivity.this, e);
-                }
-            }
-        });*/
     }
 
     private void initViews() {
@@ -149,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.logout:
                 showLogoutDialog();
                 break;
@@ -166,8 +126,20 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(SettingsActivity.this, EmailActivity.class));
                 break;
             case R.id.invite_facebook:
-                startActivity(new Intent(SettingsActivity.this, FacebookInviteActivity.class));
+//                startActivity(new Intent(SettingsActivity.this, FacebookInviteActivity.class));
+                inviteViaFacebook();
                 break;
         }
     }
+
+    private void inviteViaFacebook() {
+        if (AppInviteDialog.canShow()) {
+            AppInviteContent content = new AppInviteContent.Builder()
+                    .setApplinkUrl("https://fb.me/861121270653898")
+                    .setPreviewImageUrl("http://cardbizapp.com/images/myLogo.png")
+                    .build();
+            AppInviteDialog.show(this, content);
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +32,8 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import bolts.AppLinks;
+
 public class SplashActivity extends AppCompatActivity {
     private DBHelper helper;
     private String strRegID;
@@ -47,6 +50,10 @@ public class SplashActivity extends AppCompatActivity {
             Helper.contactArray = new JSONArray();
 
             FacebookSdk.sdkInitialize(SplashActivity.this);
+            Uri targetUri = AppLinks.getTargetUrlFromInboundIntent(this,getIntent());
+            if(targetUri != null){
+                Log.i("target",""+targetUri);
+            }
             getHashKey();
 
             AppPreference.setBoolean(SplashActivity.this, "ENTERED_FIRST_TIME", true);
