@@ -23,8 +23,6 @@ public class ShareSplashActivity extends AppCompatActivity {
         if (getIntent().getData() != null)
             urlSchemeHost = getIntent().getData().getHost();
 
-        Log.i("urlSchemeHost",urlSchemeHost);
-
         callIntent();
 
     }

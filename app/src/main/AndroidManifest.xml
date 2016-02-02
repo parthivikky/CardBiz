@@ -76,11 +76,11 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                 <!--<action android:name="android.intent.action.VIEW" />-->
+                <!--<action android:name="android.intent.action.VIEW" />-->
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <!--<category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="cardbizz" />-->
+                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+                <!--<data android:scheme="cardbizz" />-->
             </intent-filter>
         </activity>
 
@@ -170,18 +170,10 @@
             android:name=".Activity.SharedCardViewActivity"
             android:label="@string/title_activity_shared_card_view"
             android:screenOrientation="portrait">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="cardbiz" />
-            </intent-filter>
-            -->
         </activity>
         <activity
             android:name=".Activity.ShareSplashActivity"
+            android:label="@string/title_activity_shared_card_view"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -192,18 +184,29 @@
         </activity>
         <activity
             android:name=".Activity.OwnCardViewActivity"
-            android:label="@string/title_activity_shared_card_view"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.NoCardActivity"
             android:label="@string/title_activity_no_card" />
         <activity android:name=".Activity.SettingsActivity" />
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".Activity.ContactsActivity" />
-        <activity android:name=".Activity.EditCardActivity" />
-        <activity android:name=".Activity.PrivacyPolicyActivity" />
-        <activity android:name=".Activity.EmailActivity" />
-        <activity android:name=".Activity.FacebookInviteActivity"></activity>
+        <activity android:name=".Activity.ContactsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.EditCardActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.PrivacyPolicyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.EmailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.SplashActivityFromFacebook"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="cardbizz" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

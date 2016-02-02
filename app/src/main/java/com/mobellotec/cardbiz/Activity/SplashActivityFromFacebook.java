@@ -34,7 +34,7 @@ import java.security.NoSuchAlgorithmException;
 
 import bolts.AppLinks;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivityFromFacebook extends AppCompatActivity {
     private DBHelper helper;
     private String strRegID;
     private byte[] contactImage = null;
@@ -49,22 +49,26 @@ public class SplashActivity extends AppCompatActivity {
             attempt = 1;
             Helper.contactArray = new JSONArray();
 
-            FacebookSdk.sdkInitialize(SplashActivity.this);
+            FacebookSdk.sdkInitialize(SplashActivityFromFacebook.this);
+            /*Uri targetUri = AppLinks.getTargetUrlFromInboundIntent(this,getIntent());
+            if(targetUri != null){
+                Log.i("target",""+targetUri);
+            }*/
             getHashKey();
 
-            AppPreference.setBoolean(SplashActivity.this, "ENTERED_FIRST_TIME", true);
-            AppPreference.setBoolean(SplashActivity.this, "CONTACTS_FIRST_TIME", true);
-            AppPreference.setBoolean(SplashActivity.this, "EMAIL_FIRST_TIME", true);
+            AppPreference.setBoolean(SplashActivityFromFacebook.this, "ENTERED_FIRST_TIME", true);
+            AppPreference.setBoolean(SplashActivityFromFacebook.this, "CONTACTS_FIRST_TIME", true);
+            AppPreference.setBoolean(SplashActivityFromFacebook.this, "EMAIL_FIRST_TIME", true);
 
             if (!isGCMEnabled()) {
-                CommonClass.showMessageToast(SplashActivity.this, "Device not supported GCM");
+                CommonClass.showMessageToast(SplashActivityFromFacebook.this, "Device not supported GCM");
             }
-            strRegID = AppPreference.getString(SplashActivity.this, AppPreference.GCM_REG_ID);
+            strRegID = AppPreference.getString(SplashActivityFromFacebook.this, AppPreference.GCM_REG_ID);
             if (TextUtils.isEmpty(strRegID) || strRegID.length() <= 0) {
-                if (Helper.isNetworkAvailable(SplashActivity.this)) {
+                if (Helper.isNetworkAvailable(SplashActivityFromFacebook.this)) {
                     gcmRegistor();
                 } else {
-                    CommonClass.showMessageToast(SplashActivity.this, "Please check your internet connection");
+                    CommonClass.showMessageToast(SplashActivityFromFacebook.this, "Please check your internet connection");
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -77,24 +81,24 @@ public class SplashActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Utils.sendReport(SplashActivity.this, e);
+            Utils.sendReport(SplashActivityFromFacebook.this, e);
         }
     }
 
     private void gcmRegistor() {
         try {
-            final GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(SplashActivity.this);
+            final GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(SplashActivityFromFacebook.this);
             new AsyncTask<Void, Void, String>() {
 
                 @Override
                 protected String doInBackground(Void... params) {
                     try {
                         strRegID = gcm.register(GCMConfig.GOOGLE_PROJECT_ID);
-                        AppPreference.setString(SplashActivity.this, AppPreference.GCM_REG_ID, strRegID);
+                        AppPreference.setString(SplashActivityFromFacebook.this, AppPreference.GCM_REG_ID, strRegID);
                     } catch (IOException e) {
                         e.printStackTrace();
                         strRegID = "";
-                        AppPreference.setString(SplashActivity.this, AppPreference.GCM_REG_ID, strRegID);
+                        AppPreference.setString(SplashActivityFromFacebook.this, AppPreference.GCM_REG_ID, strRegID);
                     }
                     return strRegID;
                 }
@@ -103,14 +107,14 @@ public class SplashActivity extends AppCompatActivity {
                 protected void onPostExecute(String strRegID) {
                     super.onPostExecute(strRegID);
                     if (TextUtils.isEmpty(strRegID) || strRegID.length() <= 0) {
-                        CommonClass.showMessageToast(SplashActivity.this, "GCM not properly registered! try again");
+                        CommonClass.showMessageToast(SplashActivityFromFacebook.this, "GCM not properly registered! try again");
                         if (attempt <= 3) {
                             attempt = attempt + 1;
-                            if (Helper.isNetworkAvailable(SplashActivity.this)) {
+                            if (Helper.isNetworkAvailable(SplashActivityFromFacebook.this)) {
                                 gcmRegistor();
                             }
                         } else {
-                            CommonClass.showMessageToast(SplashActivity.this, "GCM registered attempt finished");
+                            CommonClass.showMessageToast(SplashActivityFromFacebook.this, "GCM registered attempt finished");
                             finish();
                         }
                     } else {
@@ -120,7 +124,7 @@ public class SplashActivity extends AppCompatActivity {
             }.execute();
         } catch (Exception e) {
             e.printStackTrace();
-            Utils.sendReport(SplashActivity.this, e);
+            Utils.sendReport(SplashActivityFromFacebook.this, e);
         }
     }
 
@@ -134,12 +138,12 @@ public class SplashActivity extends AppCompatActivity {
                         e.printStackTrace();
                     } finally {
                         Intent intent = null;
-                        if (!AppPreference.getBoolean(SplashActivity.this, AppPreference.APP_INTRO)) {
-                            intent = new Intent(SplashActivity.this, TutorialActivity.class);
-                        } else if (!AppPreference.getBoolean(SplashActivity.this, AppPreference.IS_LOGIN)) {
-                            intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        if (!AppPreference.getBoolean(SplashActivityFromFacebook.this, AppPreference.APP_INTRO)) {
+                            intent = new Intent(SplashActivityFromFacebook.this, TutorialActivity.class);
+                        } else if (!AppPreference.getBoolean(SplashActivityFromFacebook.this, AppPreference.IS_LOGIN)) {
+                            intent = new Intent(SplashActivityFromFacebook.this, LoginActivity.class);
                         } else {
-                            intent = new Intent(SplashActivity.this, HomeActivity.class);
+                            intent = new Intent(SplashActivityFromFacebook.this, HomeActivity.class);
                         }
                         startActivity(intent);
                         finish();
@@ -149,23 +153,23 @@ public class SplashActivity extends AppCompatActivity {
             timeThread.start();
         } catch (Exception e) {
             e.printStackTrace();
-            Utils.sendReport(SplashActivity.this, e);
+            Utils.sendReport(SplashActivityFromFacebook.this, e);
         }
     }
 
     private boolean isGCMEnabled() {
         try {
-            int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(SplashActivity.this);
+            int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(SplashActivityFromFacebook.this);
             if (resultCode == ConnectionResult.SUCCESS) {
-                AppPreference.setBoolean(SplashActivity.this, AppPreference.IS_GCM_AVAILABLE, true);
+                AppPreference.setBoolean(SplashActivityFromFacebook.this, AppPreference.IS_GCM_AVAILABLE, true);
                 return true;
             } else {
-                AppPreference.setBoolean(SplashActivity.this, AppPreference.IS_GCM_AVAILABLE, false);
+                AppPreference.setBoolean(SplashActivityFromFacebook.this, AppPreference.IS_GCM_AVAILABLE, false);
                 return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Utils.sendReport(SplashActivity.this, e);
+            Utils.sendReport(SplashActivityFromFacebook.this, e);
         }
         return false;
     }
@@ -181,7 +185,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Utils.sendReport(SplashActivity.this, e);
+            Utils.sendReport(SplashActivityFromFacebook.this, e);
         }
     }
 

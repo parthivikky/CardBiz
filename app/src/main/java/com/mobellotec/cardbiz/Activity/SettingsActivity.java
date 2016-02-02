@@ -126,7 +126,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(SettingsActivity.this, EmailActivity.class));
                 break;
             case R.id.invite_facebook:
-//                startActivity(new Intent(SettingsActivity.this, FacebookInviteActivity.class));
                 inviteViaFacebook();
                 break;
         }
@@ -135,7 +134,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private void inviteViaFacebook() {
         if (AppInviteDialog.canShow()) {
             AppInviteContent content = new AppInviteContent.Builder()
-                    .setApplinkUrl("https://fb.me/861121270653898")
+//                    .setApplinkUrl("https://fb.me/861121270653898")
+                    .setApplinkUrl("https://fb.me/861117603987598")
                     .setPreviewImageUrl("http://cardbizapp.com/images/myLogo.png")
                     .build();
             AppInviteDialog.show(this, content);
