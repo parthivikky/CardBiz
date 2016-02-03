@@ -1,11 +1,14 @@
 package com.mobellotec.cardbiz.Activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.linkedin.platform.LISessionManager;
 import com.mobellotec.cardbiz.Fragment.LoginFragment;
 import com.mobellotec.cardbiz.Fragment.RegisterFragment;
 import com.mobellotec.cardbiz.R;
@@ -70,5 +73,11 @@ public class LoginActivity extends AppCompatActivity {
         login = (TextView) findViewById(R.id.btn_login);
         register = (TextView) findViewById(R.id.btn_register);
         title = (TextView) findViewById(R.id.title);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LISessionManager.getInstance(getApplicationContext()).onActivityResult(this, requestCode, resultCode, data);
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,9 +29,6 @@ import org.json.JSONArray;
 
 import java.io.IOException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import bolts.AppLinks;
 
 public class SplashActivity extends AppCompatActivity {
     private DBHelper helper;
@@ -50,11 +46,16 @@ public class SplashActivity extends AppCompatActivity {
             Helper.contactArray = new JSONArray();
 
             FacebookSdk.sdkInitialize(SplashActivity.this);
+
+
             getHashKey();
 
             AppPreference.setBoolean(SplashActivity.this, "ENTERED_FIRST_TIME", true);
             AppPreference.setBoolean(SplashActivity.this, "CONTACTS_FIRST_TIME", true);
             AppPreference.setBoolean(SplashActivity.this, "EMAIL_FIRST_TIME", true);
+            AppPreference.setString(SplashActivity.this,AppPreference.LI_TOKEN,null);
+            AppPreference.setString(SplashActivity.this,AppPreference.LI_TOKEN_SECRET,null);
+            AppPreference.setString(SplashActivity.this,AppPreference.LI_REQTOKEN_SECRET,null);
 
             if (!isGCMEnabled()) {
                 CommonClass.showMessageToast(SplashActivity.this, "Device not supported GCM");

@@ -59,6 +59,7 @@ public class SharedCardViewActivity extends AppCompatActivity {
         try {
             initView();
             String value = getIntent().getStringExtra("share");
+            Log.i("share",value);
             String[] link = value.split("&");
             for (int i = 0; i < link.length; i++) {
                 String[] contents = link[i].split("=");

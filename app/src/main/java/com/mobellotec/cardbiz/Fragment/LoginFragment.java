@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
@@ -19,6 +21,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -30,11 +33,25 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.code.linkedinapi.client.LinkedInApiClient;
+import com.google.code.linkedinapi.client.LinkedInApiClientException;
 import com.google.code.linkedinapi.client.LinkedInApiClientFactory;
 import com.google.code.linkedinapi.client.enumeration.ProfileField;
 import com.google.code.linkedinapi.client.oauth.LinkedInAccessToken;
+import com.google.code.linkedinapi.client.oauth.LinkedInOAuthService;
+import com.google.code.linkedinapi.client.oauth.LinkedInOAuthServiceFactory;
+import com.google.code.linkedinapi.client.oauth.LinkedInRequestToken;
 import com.google.code.linkedinapi.schema.Person;
+import com.linkedin.platform.APIHelper;
+import com.linkedin.platform.LISession;
+import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.errors.LIApiError;
+import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.ApiListener;
+import com.linkedin.platform.listeners.ApiResponse;
+import com.linkedin.platform.listeners.AuthListener;
+import com.linkedin.platform.utils.Scope;
 import com.mobellotec.cardbiz.Activity.HomeActivity;
+import com.mobellotec.cardbiz.Activity.LoginActivity;
 import com.mobellotec.cardbiz.Activity.MobileNoActivity;
 import com.mobellotec.cardbiz.Activity.SharedCardViewActivity;
 import com.mobellotec.cardbiz.Activity.VerificationActivity;
@@ -78,6 +95,7 @@ public class LoginFragment extends Fragment {
 //    private LinkedInOAuthService oAuthService = LinkedInOAuthServiceFactory.getInstance().createLinkedInOAuthService(LinkedinConfig.LINKEDIN_CONSUMER_KEY, LinkedinConfig.LINKEDIN_CONSUMER_SECRET);
 //    private LinkedInRequestToken requestToken;
     private LinkedInApiClientFactory factory = LinkedInApiClientFactory.newInstance(LinkedinConfig.LINKEDIN_CONSUMER_KEY, LinkedinConfig.LINKEDIN_CONSUMER_SECRET);
+    private LinkedInOAuthService oAuthService = LinkedInOAuthServiceFactory.getInstance().createLinkedInOAuthService(LinkedinConfig.LINKEDIN_CONSUMER_KEY, LinkedinConfig.LINKEDIN_CONSUMER_SECRET);
     private LinkedInApiClient client;
     private LinkedInAccessToken accessToken;
     private String urlSchemeHost = null;
@@ -100,10 +118,9 @@ public class LoginFragment extends Fragment {
                 StrictMode.setThreadPolicy(policy);
             }
 
-            facebook.setReadPermissions(Arrays.asList("public_profile", "email","user_about_me","user_friends"));
+            facebook.setReadPermissions(Arrays.asList("public_profile", "email", "user_about_me", "user_friends"));
             facebook.setFragment(this);
             callbackManager = CallbackManager.Factory.create();
-
             if (AccessToken.getCurrentAccessToken() != null) {
                 getFacebookUserData();
             }
@@ -129,7 +146,10 @@ public class LoginFragment extends Fragment {
             linkedIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    linkedInLogin();
+//                    linkedInLogin();
+                    linkInLog();
+
+
                 }
             });
 
@@ -257,7 +277,7 @@ public class LoginFragment extends Fragment {
             RetrofitApi.ApiInterface apiInterface = RetrofitApi.getApiInterfaceInstance();
             Call<Login> loginCall = apiInterface.login(email, password, userType,
                     CommonClass.convertMd5(Constants.BASE_URL + Constants.LOGIN + Constants.SECRET_KEY),
-                    "android", AppPreference.getString(getActivity(),AppPreference.GCM_REG_ID));
+                    "android", AppPreference.getString(getActivity(), AppPreference.GCM_REG_ID));
             loginCall.enqueue(new Callback<Login>() {
                 @Override
                 public void onResponse(Response<Login> response, Retrofit retrofit) {
@@ -324,6 +344,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         try {
             if (requestCode == USER_VERIFICATION && resultCode == getActivity().RESULT_OK)
                 getActivity().finish();
@@ -362,6 +383,50 @@ public class LoginFragment extends Fragment {
             Utils.sendReport(getActivity(), e);
         }
     }
+
+    private void linkInLog() {
+        LISessionManager.getInstance(getActivity().getApplicationContext()).init(getActivity(), buildScope(), new AuthListener() {
+            @Override
+            public void onAuthSuccess() {
+                String url = "https://api.linkedin.com/v1/people/~:(email-address,first-name,last-name)";
+                APIHelper apiHelper = APIHelper.getInstance(getActivity());
+                apiHelper.getRequest(getActivity(), url, new ApiListener() {
+                    @Override
+                    public void onApiSuccess(ApiResponse result) {
+                        try {
+                            Log.i("result",""+result.getResponseDataAsJson());
+                            first_name = result.getResponseDataAsJson().getString("firstName");
+                            last_name = result.getResponseDataAsJson().getString("lastName");
+                            email_id = result.getResponseDataAsJson().getString("emailAddress");
+                            if (TextUtils.isEmpty(email_id)) {
+                                CommonClass.showMessageToast(getActivity(), "Email id is required.");
+                            } else {
+                                AppPreference.setString(getActivity(), AppPreference.FIRST_NAME, first_name);
+                                AppPreference.setString(getActivity(), AppPreference.LAST_NAME, last_name);
+                                AppPreference.setString(getActivity(), AppPreference.EMAIL, email_id);
+                                verifyLogin(email_id, "", "li");
+                            }
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onApiError(LIApiError error) {
+                        CommonClass.showMessageToast(getActivity(), "Sorry! Can not login.");
+                    }
+                });
+            }
+
+            @Override
+            public void onAuthError(LIAuthError error) {
+                Log.i("error",error.toString());
+                CommonClass.showMessageToast(getActivity(), "Sorry! Can not access LinkedIn.");
+            }
+        }, true);
+    }
+
+
 
     private void linkedInLogin() {
         try {
@@ -437,5 +502,9 @@ public class LoginFragment extends Fragment {
             e.printStackTrace();
             Utils.sendReport(getActivity(), e);
         }
+    }
+
+    private static Scope buildScope(){
+        return Scope.build(Scope.R_BASICPROFILE,Scope.R_EMAILADDRESS);
     }
 }

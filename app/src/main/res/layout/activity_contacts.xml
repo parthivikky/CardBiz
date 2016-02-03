@@ -55,7 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#eeeeee"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/selectAll"

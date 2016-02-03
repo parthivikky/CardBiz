@@ -31,6 +31,11 @@ public class AppPreference {
     public static final String TEMPLATE_IMAGE = "template_image";
     public static final String IS_GCM_AVAILABLE = "is_gcm_availale";
     public static final String GCM_REG_ID = "gcm_reg_id";
+    public static final String LI_TOKEN = "li_token";
+    public static final String LI_TOKEN_SECRET = "li_token_secret";
+    public static final String LI_REQTOKEN_SECRET = "li_reqtoken_secret";
+
+
 
 
     public static boolean getBoolean(Context context, String key) {
@@ -46,7 +51,7 @@ public class AppPreference {
 
     public static String getString(Context context, String key) {
         SharedPreferences preferences = context.getSharedPreferences(prefernce_name, Context.MODE_PRIVATE);
-        return preferences.getString(key, "");
+        return preferences.getString(key, null);
     }
 
     public static void setString(Context context, String key, String value) {

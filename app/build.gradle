@@ -8,11 +8,11 @@ android {
         applicationId "com.mobellotec.cardbiz"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 61
+        versionCode 62
         versionName "1.4"
         multiDexEnabled true
     }
-    signingConfigs{
+    signingConfigs {
         playstore {
             storeFile file("keystore\\cardbiz.jks")
             storePassword "cardbiz"
@@ -40,23 +40,25 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':ViewPageIndicator')
     compile project(':ImageCroppingWithRotating')
+    compile project(':linkedin-sdk')
     compile files('libs/linkedin-j-android.jar')
     compile files('libs/commons-codec-1.3.jar')
     compile files('libs/signpost-core-1.2.1.1.jar')
     compile files('libs/nineoldandroids-2.4.0.jar')
-    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'se.emilsjolander:stickylistheaders:2.4.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
-    compile 'com.google.android.gms:play-services:8.1.0'
+    compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     compile 'com.squareup:seismic:1.0.2'
-    compile 'com.google.android.gms:play-services-ads:8.1.0'
+    compile 'com.google.android.gms:play-services-ads:8.4.0'
     compile 'com.google.android.gms:play-services-identity:8.1.0'
-    compile 'com.google.android.gms:play-services-gcm:8.1.0'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile 'ch.acra:acra:4.7.0'
     compile 'me.grantland:autofittextview:0.2.+'
+    compile 'com.google.android.gms:play-services-auth:8.4.0'
 }

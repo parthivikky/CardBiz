@@ -10,4 +10,8 @@ public class LinkedinConfig {
     public static String OAUTH_CALLBACK_SCHEME = "x-oauthflow-linkedin";
     public static String OAUTH_CALLBACK_HOST = "callback";
     public static String OAUTH_CALLBACK_URL = OAUTH_CALLBACK_SCHEME + "://" + OAUTH_CALLBACK_HOST;
+    public static final String OAUTH_QUERY_TOKEN = "oauth_token";
+    public static final String OAUTH_QUERY_VERIFIER = "oauth_verifier";
+    public static final String OAUTH_QUERY_PROBLEM = "oauth_problem";
+
 }

@@ -281,7 +281,7 @@
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/right_arrow_small"
                     android:singleLine="true"
-                    android:text="Invite Friends via SMS"
+                    android:text="Invite friends via SMS"
                     android:textColor="#000000"
                     android:textSize="19sp"
                     android:layout_margin="10dp"/>
@@ -303,7 +303,7 @@
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/right_arrow_small"
                     android:singleLine="true"
-                    android:text="Invite Friends via Email"
+                    android:text="Invite friends via Email"
                     android:textColor="#000000"
                     android:textSize="19sp"
                     android:layout_margin="10dp"/>
@@ -326,7 +326,7 @@
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/right_arrow_small"
                     android:singleLine="true"
-                    android:text="Invite Friends via Facebook"
+                    android:text="Invite friends via Facebook"
                     android:textColor="#000000"
                     android:textSize="19sp"
                     android:layout_margin="10dp"/>
