@@ -120,7 +120,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(SettingsActivity.this, PrivacyPolicyActivity.class).putExtra("privacy", true));
                 break;
             case R.id.invite_sms:
-                startActivity(new Intent(SettingsActivity.this, ContactsActivity.class).putExtra("invite_type", Constants.INVITE_SMS));
+                startActivity(new Intent(SettingsActivity.this, ContactsActivity.class));
                 break;
             case R.id.invite_email:
                 startActivity(new Intent(SettingsActivity.this, EmailActivity.class));

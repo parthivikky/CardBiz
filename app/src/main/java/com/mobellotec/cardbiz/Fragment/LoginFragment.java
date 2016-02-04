@@ -118,7 +118,7 @@ public class LoginFragment extends Fragment {
                 StrictMode.setThreadPolicy(policy);
             }
 
-            facebook.setReadPermissions(Arrays.asList("public_profile", "email", "user_about_me", "user_friends"));
+            facebook.setReadPermissions(Arrays.asList("public_profile", "email", "user_about_me"));
             facebook.setFragment(this);
             callbackManager = CallbackManager.Factory.create();
             if (AccessToken.getCurrentAccessToken() != null) {

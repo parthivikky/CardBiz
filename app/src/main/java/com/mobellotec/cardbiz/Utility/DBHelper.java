@@ -750,7 +750,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<GroupInfo> getSharedContact() {
-        String selectQuery = "SELECT  * FROM " + SHARED_CARD_TABLE_NAME;
+        String selectQuery = "SELECT  * FROM " + SHARED_CARD_TABLE_NAME + " ORDER BY " + Constants.CONTACT_EMAIL_NAME + " ASC;";
         ArrayList<GroupInfo> groupInfos = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         try{

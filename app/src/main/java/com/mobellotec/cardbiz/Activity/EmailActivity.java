@@ -38,6 +38,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class EmailActivity extends AppCompatActivity {
 
     private static int REQUEST_READ_CONTACTS = 1;
+    private static int EMAIL_INVITE_REQUEST = 2;
 
     private StickyListHeadersListView listView;
     private TextView invites, selectAll, clearAll;
@@ -145,7 +146,7 @@ public class EmailActivity extends AppCompatActivity {
             intent.setData(Uri.parse("mailto:" + recipients));
             intent.putExtra(Intent.EXTRA_TEXT, message);
             intent.putExtra(Intent.EXTRA_SUBJECT, "Invite from CardBiz Android application");
-            startActivity(Intent.createChooser(intent,"Select Email Client"));
+            startActivityForResult(Intent.createChooser(intent,"Select Email Client"),EMAIL_INVITE_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             Utils.sendReport(EmailActivity.this, e);
@@ -260,6 +261,17 @@ public class EmailActivity extends AppCompatActivity {
         if (url != null)
             return "<a href=\"" + url + "\">" + url + "</a>";
         return null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == EMAIL_INVITE_REQUEST){
+            dbHelper.updateAllEmailContactSelected(0);
+            adapter.contacts = dbHelper.getEmailContact();
+            adapter.notifyDataSetChanged();
+            invites.setText("Invite(0)");
+        }
     }
 
     @Override
