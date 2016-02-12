@@ -51,17 +51,18 @@
         android:visibility="gone"
         android:background="@drawable/empty_add_card"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/card_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/header"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <TextView
             android:id="@+id/txt_card_position"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:background="@drawable/card_position_bg"
             android:gravity="center"
             android:textColor="@color/app_black_color"
@@ -70,7 +71,8 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_above="@+id/action_layout"
             android:layout_below="@+id/txt_card_position"
             android:background="@android:color/transparent"
@@ -86,14 +88,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:gravity="center">
 
                 <ImageView
                     android:id="@+id/img_card_delete"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
@@ -120,10 +122,10 @@
             <com.viewpagerindicator.CirclePageIndicatorWithTitle
                 android:id="@+id/indicator"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp"
                 android:background="@color/app_secondary_white_color"
-                android:padding="20dp"
                 app:fillColor="@color/app_drak_grey"
                 app:pageColor="@android:color/transparent"
                 app:radius="5dp"
@@ -132,7 +134,6 @@
                 app:strokeWidth="1dp" />
 
         </LinearLayout>
-    </RelativeLayout>
-
+    </LinearLayout>
 
 </RelativeLayout>

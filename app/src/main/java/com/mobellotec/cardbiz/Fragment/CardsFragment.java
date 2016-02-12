@@ -5,13 +5,16 @@ import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -63,6 +66,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -88,8 +92,7 @@ public class CardsFragment extends Fragment implements View.OnClickListener {
     private CardsAdapter adapter;
     private ViewPager viewPager;
     private CirclePageIndicatorWithTitle circlePageIndicator;
-    private LinearLayout actionLayout;
-    private RelativeLayout cardContainer;
+    private LinearLayout actionLayout,cardContainer;
     private static int currentItem;
 
     @Override
@@ -332,7 +335,7 @@ public class CardsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initViews(View view) {
-        cardContainer = (RelativeLayout) view.findViewById(R.id.card_container);
+        cardContainer = (LinearLayout) view.findViewById(R.id.card_container);
         imgAddNew = (ImageView) view.findViewById(R.id.img_add);
         img_settings = (ImageView) view.findViewById(R.id.img_settings);
         empty_card = (TextView) view.findViewById(R.id.empty_card);
@@ -417,16 +420,44 @@ public class CardsFragment extends Fragment implements View.OnClickListener {
         try {
             String bindUrl = "http://54.169.86.42/cardbiz/share.php?value=" + Base64.encodeToString(bindValue.getBytes("UTF-8"), Base64.NO_WRAP);
             String subject = "I would like to share my card with you using CardBiz";
+            viewPager.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(viewPager.getDrawingCache());
+            viewPager.setDrawingCacheEnabled(false);
+            Uri uri = getImageUri(bitmap);
             PackageManager pm = getActivity().getPackageManager();
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.setType("text/html");
+//            sendIntent.setType("text/html");
             sendIntent.setType("text/plain");
+            sendIntent.setType(CommonClass.getMimeType());
+            Log.i("type",CommonClass.getMimeType());
             sendIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
             sendIntent.putExtra(Intent.EXTRA_TEXT, subject + "\n" + Html.fromHtml(getLink(bindUrl)));
+            sendIntent.putExtra(Intent.EXTRA_STREAM,uri);
+
+            /*Intent facebookIntent = new Intent(Intent.ACTION_SEND);
+            facebookIntent.setType("text/html");
+            facebookIntent.setType("text/plain");
+            List<ResolveInfo> resInfo1 = getActivity().getPackageManager().queryIntentActivities(facebookIntent, 0);
+            if (!resInfo1.isEmpty()) {
+                for (ResolveInfo info : resInfo1) {
+                    Log.i("package name",info.activityInfo.packageName);
+                    Log.i("activity name",info.activityInfo.name);
+                    if (info.activityInfo.packageName.toLowerCase().equals("com.facebook.katana") ||
+                            info.activityInfo.name.toLowerCase().contains("facebook")) {
+                        *//*viewPager.setDrawingCacheEnabled(true);
+                        Bitmap bitmap = Bitmap.createBitmap(viewPager.getDrawingCache());*//*
+                        viewPager.setDrawingCacheEnabled(false);
+                        facebookIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                        facebookIntent.putExtra(Intent.EXTRA_TEXT,"hi");
+//                        facebookIntent.putExtra(Intent.EXTRA_STREAM,getImageUri(bitmap));
+                        break;
+                    }
+                }
+            }*/
             Intent viewIntent = new Intent(Intent.ACTION_VIEW);
             viewIntent.setType("vnd.android-dir/mms-sms");
             viewIntent.putExtra("sms_body", subject + "\n" + Html.fromHtml(getLink(bindUrl)));
-            Intent chooserIntent = Intent.createChooser(sendIntent, "Share");
+
             Spannable forEditing = new SpannableString("");
             forEditing.setSpan(new ForegroundColorSpan(Color.CYAN), 0, forEditing.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             List<ResolveInfo> resInfo = pm.queryIntentActivities(viewIntent, 0);
@@ -443,12 +474,19 @@ public class CardsFragment extends Fragment implements View.OnClickListener {
                 CharSequence label = TextUtils.concat(ri.loadLabel(pm), forEditing);
                 extraIntents[i] = new LabeledIntent(intent, packageName, label, ri.icon);
             }
-
+            Intent chooserIntent = Intent.createChooser(sendIntent, "Share");
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
             startActivity(chooserIntent);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+
+    public Uri getImageUri(Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
     private void getCardDetails(int position) {
@@ -485,7 +523,6 @@ public class CardsFragment extends Fragment implements View.OnClickListener {
                             empty_card.setVisibility(View.VISIBLE);
                             cardContainer.setVisibility(View.GONE);
                         }
-
                     }
                 }
                 CommonClass.dismissProgress();

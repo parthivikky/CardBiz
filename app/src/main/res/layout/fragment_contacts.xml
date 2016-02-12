@@ -54,7 +54,8 @@
                 android:gravity="left"
                 android:hint="Search"
                 android:padding="5dp"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:inputType="textCapSentences"/>
         </RelativeLayout>
     </LinearLayout>
 

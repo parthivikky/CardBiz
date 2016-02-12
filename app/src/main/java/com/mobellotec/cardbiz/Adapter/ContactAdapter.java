@@ -39,19 +39,20 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
     private DBHelper dbHelper;
     private int type;
 
-    public ContactAdapter(Context context, TextView invites,int type) {
+    public ContactAdapter(Context context, TextView invites,int type,ArrayList<Contact> contacts) {
         dbHelper = new DBHelper(context);
         this.context = context;
         this.invites = invites;
         this.type = type;
-        switch (type){
+        this.contacts = contacts;
+        /*switch (type){
             case Constants.INVITE_SMS:
                 this.contacts = dbHelper.getContact();
                 break;
             case Constants.INVITE_EMAIL:
                 this.contacts = dbHelper.getEmailContact();
                 break;
-        }
+        }*/
     }
 
     @Override

@@ -14,14 +14,20 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mobellotec.cardbiz.Adapter.CardHolderAdapter;
 import com.mobellotec.cardbiz.Adapter.ContactAdapter;
 import com.mobellotec.cardbiz.Model.Contact;
 import com.mobellotec.cardbiz.R;
@@ -41,9 +47,12 @@ public class EmailActivity extends AppCompatActivity {
     private static int EMAIL_INVITE_REQUEST = 2;
 
     private StickyListHeadersListView listView;
-    private TextView invites, selectAll, clearAll;
+    private TextView invites;
+    private EditText edtxtSearch;
+    private RelativeLayout search_container;
     private DBHelper dbHelper;
     private ContactAdapter adapter;
+    private String searchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +71,7 @@ public class EmailActivity extends AppCompatActivity {
                 }
                 AppPreference.setBoolean(this, "EMAIL_FIRST_TIME", false);
             } else {
-                adapter = new ContactAdapter(EmailActivity.this, invites,Constants.INVITE_EMAIL);
+                adapter = new ContactAdapter(EmailActivity.this, invites, Constants.INVITE_EMAIL, dbHelper.getEmailContact());
                 listView.setAdapter(adapter);
             }
         } catch (Exception e) {
@@ -70,49 +79,20 @@ public class EmailActivity extends AppCompatActivity {
             Utils.sendReport(EmailActivity.this, e);
         }
 
-        selectAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    dbHelper.updateAllEmailContactSelected(1);
-                    adapter.contacts = dbHelper.getEmailContact();
-                    adapter.notifyDataSetChanged();
-                    invites.setText("Invite(" + adapter.contacts.size() + ")");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Utils.sendReport(EmailActivity.this, e);
-                }
-            }
-        });
-
-        clearAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    dbHelper.updateAllEmailContactSelected(0);
-                    adapter.contacts = dbHelper.getEmailContact();
-                    adapter.notifyDataSetChanged();
-                    invites.setText("Invite(0)");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Utils.sendReport(EmailActivity.this, e);
-                }
-            }
-        });
-
         invites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
+                    edtxtSearch.setText("");
                     ArrayList<Contact> selectedContacts = dbHelper.getSelectedEmailContact();
                     boolean isFirst = true;
                     String recipients = null;
                     if (selectedContacts.size() > 0) {
                         for (int i = 0; i < selectedContacts.size(); i++) {
-                            if(isFirst){
+                            if (isFirst) {
                                 recipients = selectedContacts.get(i).getEmail();
                                 isFirst = false;
-                            }else{
+                            } else {
                                 recipients = recipients + "," + selectedContacts.get(i).getEmail();
                             }
                         }
@@ -128,13 +108,55 @@ public class EmailActivity extends AppCompatActivity {
             }
         });
 
+        search_container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edtxtSearch.requestFocus();
+                InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.showSoftInput(edtxtSearch, 0);
+            }
+        });
+
+        edtxtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchText = edtxtSearch.getText().toString().toLowerCase();
+                ArrayList<Contact> contacts = dbHelper.getEmailContact();
+                if (searchText.length() <= 0) {
+                    adapter = new ContactAdapter(EmailActivity.this, invites, Constants.INVITE_EMAIL, contacts);
+                    listView.setAdapter(adapter);
+                } else {
+                    ArrayList<Contact> searchContacts = new ArrayList<>();
+                    for (int i = 0; i < contacts.size(); i++) {
+                        String contactName = contacts.get(i).getName().toLowerCase();
+                        String email = contacts.get(i).getEmail().toLowerCase();
+                        if (searchText.length() <= contactName.length() || searchText.length() <= email.length()) {
+                            if (contactName.startsWith(searchText) || email.contains(searchText)) {
+                                searchContacts.add(contacts.get(i));
+                            }
+                        }
+                    }
+                    adapter = new ContactAdapter(EmailActivity.this, invites, Constants.INVITE_EMAIL, searchContacts);
+                    listView.setAdapter(adapter);
+                }
+            }
+        });
+
     }
 
     private void initViews() {
         listView = (StickyListHeadersListView) findViewById(R.id.listView);
         invites = (TextView) findViewById(R.id.invites);
-        selectAll = (TextView) findViewById(R.id.selectAll);
-        clearAll = (TextView) findViewById(R.id.clearAll);
+        edtxtSearch = (EditText) findViewById(R.id.edtxt_search);
+        search_container = (RelativeLayout) findViewById(R.id.search_container);
         dbHelper = new DBHelper(this);
     }
 
@@ -146,7 +168,7 @@ public class EmailActivity extends AppCompatActivity {
             intent.setData(Uri.parse("mailto:" + recipients));
             intent.putExtra(Intent.EXTRA_TEXT, message);
             intent.putExtra(Intent.EXTRA_SUBJECT, "Invite from CardBiz Android application");
-            startActivityForResult(Intent.createChooser(intent,"Select Email Client"),EMAIL_INVITE_REQUEST);
+            startActivityForResult(Intent.createChooser(intent, "Select Email Client"), EMAIL_INVITE_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             Utils.sendReport(EmailActivity.this, e);
@@ -209,7 +231,7 @@ public class EmailActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             try {
                 CommonClass.dismissProgress();
-                adapter = new ContactAdapter(EmailActivity.this, invites,Constants.INVITE_EMAIL);
+                adapter = new ContactAdapter(EmailActivity.this, invites, Constants.INVITE_EMAIL, dbHelper.getEmailContact());
                 listView.setAdapter(adapter);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -234,7 +256,7 @@ public class EmailActivity extends AppCompatActivity {
                     String name = cur1.getString(cur1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                     String email = cur1.getString(cur1.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
                     if (email != null || !TextUtils.isEmpty(email)) {
-                        dbHelper.insertEmailContact(new Contact(id, name, null,email, 0));
+                        dbHelper.insertEmailContact(new Contact(id, name, null, email, 0));
                     }
                 }
                 cur1.close();
@@ -266,7 +288,7 @@ public class EmailActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == EMAIL_INVITE_REQUEST){
+        if (requestCode == EMAIL_INVITE_REQUEST) {
             dbHelper.updateAllEmailContactSelected(0);
             adapter.contacts = dbHelper.getEmailContact();
             adapter.notifyDataSetChanged();

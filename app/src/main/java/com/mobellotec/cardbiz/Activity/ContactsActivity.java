@@ -14,11 +14,16 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,9 +64,12 @@ public class ContactsActivity extends AppCompatActivity {
     private static int CONTACT_INVITE_REQUEST = 2;
 
     private StickyListHeadersListView listView;
-    private TextView invites, selectAll, clearAll;
+    private TextView invites;
+    private EditText edtxtSearch;
+    private RelativeLayout search_container;
     private DBHelper dbHelper;
     private ContactAdapter adapter;
+    private String searchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +88,7 @@ public class ContactsActivity extends AppCompatActivity {
                 }
                 AppPreference.setBoolean(this, "CONTACTS_FIRST_TIME", false);
             } else {
-                adapter = new ContactAdapter(ContactsActivity.this, invites, Constants.INVITE_SMS);
+                adapter = new ContactAdapter(ContactsActivity.this, invites, Constants.INVITE_SMS,dbHelper.getContact());
                 listView.setAdapter(adapter);
             }
         } catch (Exception e) {
@@ -88,40 +96,11 @@ public class ContactsActivity extends AppCompatActivity {
             Utils.sendReport(ContactsActivity.this, e);
         }
 
-        selectAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    dbHelper.updateAllContactSelected(1);
-                    adapter.contacts = dbHelper.getContact();
-                    adapter.notifyDataSetChanged();
-                    invites.setText("Invite(" + adapter.contacts.size() + ")");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Utils.sendReport(ContactsActivity.this, e);
-                }
-            }
-        });
-
-        clearAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    dbHelper.updateAllContactSelected(0);
-                    adapter.contacts = dbHelper.getContact();
-                    adapter.notifyDataSetChanged();
-                    invites.setText("Invite(0)");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Utils.sendReport(ContactsActivity.this, e);
-                }
-            }
-        });
-
         invites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
+                    edtxtSearch.setText("");
                     ArrayList<Contact> selectedContacts = dbHelper.getSelectedContact();
                     String phoneNos = null;
                     boolean isFirst = true;
@@ -144,13 +123,56 @@ public class ContactsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        search_container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edtxtSearch.requestFocus();
+                InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.showSoftInput(edtxtSearch, 0);
+            }
+        });
+
+        edtxtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchText = edtxtSearch.getText().toString().toLowerCase();
+                ArrayList<Contact> contacts = dbHelper.getContact();
+                if (searchText.length() <= 0) {
+                    adapter = new ContactAdapter(ContactsActivity.this, invites, Constants.INVITE_SMS, contacts);
+                    listView.setAdapter(adapter);
+                } else {
+                    ArrayList<Contact> searchContacts = new ArrayList<>();
+                    for (int i = 0; i < contacts.size(); i++) {
+                        String contactName = contacts.get(i).getName().toLowerCase();
+                        String phone = contacts.get(i).getPhone();
+                        if (searchText.length() <= contactName.length() || searchText.length() <= phone.length()) {
+                            if (contactName.startsWith(searchText) || phone.contains(searchText)) {
+                                searchContacts.add(contacts.get(i));
+                            }
+                        }
+                    }
+                    adapter = new ContactAdapter(ContactsActivity.this, invites, Constants.INVITE_SMS, searchContacts);
+                    listView.setAdapter(adapter);
+                }
+            }
+        });
+
     }
 
     private void initViews() {
         listView = (StickyListHeadersListView) findViewById(R.id.listView);
         invites = (TextView) findViewById(R.id.invites);
-        selectAll = (TextView) findViewById(R.id.selectAll);
-        clearAll = (TextView) findViewById(R.id.clearAll);
+        edtxtSearch = (EditText) findViewById(R.id.edtxt_search);
+        search_container = (RelativeLayout) findViewById(R.id.search_container);
         dbHelper = new DBHelper(this);
     }
 
@@ -224,7 +246,7 @@ public class ContactsActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             try {
                 CommonClass.dismissProgress();
-                adapter = new ContactAdapter(ContactsActivity.this, invites, Constants.INVITE_SMS);
+                adapter = new ContactAdapter(ContactsActivity.this, invites, Constants.INVITE_SMS,dbHelper.getContact());
                 listView.setAdapter(adapter);
             } catch (Exception e) {
                 e.printStackTrace();

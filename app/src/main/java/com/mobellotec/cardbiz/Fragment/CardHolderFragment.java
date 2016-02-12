@@ -95,32 +95,34 @@ public class CardHolderFragment extends Fragment {
                 @Override
                 public void afterTextChanged(Editable s) {
                     searchText = edtxtSearch.getText().toString().toLowerCase();
+                    sharedContacts = helper.getSharedContact();
                     if (searchText.length() <= 0) {
-                        sharedContacts = helper.getSharedContact();
-                        adapter = new CardHolderAdapter(sharedContacts, getActivity());
                         if (sharedContacts.size() > 0) {
+                            adapter = new CardHolderAdapter(sharedContacts, getActivity());
+                            contactListView.setAdapter(adapter);
                             showContacts();
                         } else {
                             showEmptyView();
                         }
-                        adapter.notifyDataSetChanged();
                     } else {
                         sharedSearchContacts = new ArrayList<>();
                         for (int i = 0; i < sharedContacts.size(); i++) {
                             String contactName = sharedContacts.get(i).getName().toLowerCase();
-                            if (searchText.length() <= contactName.length()) {
-                                if (contactName.startsWith(searchText)) {
+                            String companyName = sharedContacts.get(i).getCompanyName().toLowerCase();
+                            if (searchText.length() <= contactName.length() || searchText.length() <= companyName.length()) {
+                                if (contactName.startsWith(searchText) || companyName.startsWith(searchText)) {
                                     sharedSearchContacts.add(sharedContacts.get(i));
                                 }
                             }
                         }
-                        adapter = new CardHolderAdapter(sharedContacts, getActivity());
                         if (sharedSearchContacts.size() > 0) {
+                            adapter = new CardHolderAdapter(sharedSearchContacts, getActivity());
+                            contactListView.setAdapter(adapter);
                             showContacts();
                         } else {
                             showEmptyView();
                         }
-                        adapter.notifyDataSetChanged();
+
                     }
                 }
             });
@@ -339,6 +341,7 @@ public class CardHolderFragment extends Fragment {
                             sharedContacts = allSharedContacts.getResult();
                             helper.clearSharedContacts();
                             helper.insertSharedContactList(sharedContacts);
+                            sharedContacts = helper.getSharedContact();
                             adapter = new CardHolderAdapter(sharedContacts, getActivity());
                             contactListView.setAdapter(adapter);
                             if (sharedContacts.size() <= 0)

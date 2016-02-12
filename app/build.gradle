@@ -8,8 +8,8 @@ android {
         applicationId "com.mobellotec.cardbiz"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 63
-        versionName "1.5"
+        versionCode 64
+        versionName "1.7"
         multiDexEnabled true
     }
     signingConfigs {

@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.Patterns;
+import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -151,6 +152,22 @@ public class CommonClass {
         return bitmap;
     }
 
+    public static String getMimeType() {
+        String type = null;
+        String extension = "jpg";
+        if (extension != null) {
+            MimeTypeMap mime = MimeTypeMap.getSingleton();
+            type = mime.getMimeTypeFromExtension(extension);
+        }
+        return type;
+    }
 
+    public static String getFileExtensionFromUrl(String url) {
+        int dotPos = url.lastIndexOf('.');
+        if (0 <= dotPos) {
+            return (url.substring(dotPos + 1)).toLowerCase();
+        }
+        return "";
+    }
 
 }

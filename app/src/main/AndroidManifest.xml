@@ -191,13 +191,15 @@
         <activity android:name=".Activity.SettingsActivity" />
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity android:name=".Activity.ContactsActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Activity.EditCardActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".Activity.PrivacyPolicyActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".Activity.EmailActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Activity.SplashActivityFromFacebook"
             android:screenOrientation="portrait">
             <intent-filter>

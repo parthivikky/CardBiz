@@ -696,16 +696,16 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void insertSharedContact(String user_id, String user_name, String phone_no, String card_id, String company_name) {
-        try{
-        SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(SHARED_USER_ID, user_id);
-        values.put(SHARED_USER_NAME, user_name);
-        values.put(SHARED_PHONE_NO, phone_no);
-        values.put(SHARED_CARD_ID, card_id);
-        values.put(SHARED_COMPANY_NAME, company_name);
-        database.insert(SHARED_CARD_TABLE_NAME, null, values);
-        database.close();
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(SHARED_USER_ID, user_id);
+            values.put(SHARED_USER_NAME, user_name);
+            values.put(SHARED_PHONE_NO, phone_no);
+            values.put(SHARED_CARD_ID, card_id);
+            values.put(SHARED_COMPANY_NAME, company_name);
+            database.insert(SHARED_CARD_TABLE_NAME, null, values);
+            database.close();
         } catch (Exception e) {
             e.printStackTrace();
             Utils.sendReport(context, e);
@@ -713,16 +713,16 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void insertSharedContact(GroupInfo groupInfo) {
-        try{
-        SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(SHARED_USER_ID, groupInfo.getUserID());
-        values.put(SHARED_USER_NAME, groupInfo.getName());
-        values.put(SHARED_PHONE_NO, groupInfo.getContactNumber());
-        values.put(SHARED_CARD_ID, groupInfo.getCardID());
-        values.put(SHARED_COMPANY_NAME, groupInfo.getCompanyName());
-        database.insert(SHARED_CARD_TABLE_NAME, null, values);
-        database.close();
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(SHARED_USER_ID, groupInfo.getUserID());
+            values.put(SHARED_USER_NAME, groupInfo.getName());
+            values.put(SHARED_PHONE_NO, groupInfo.getContactNumber());
+            values.put(SHARED_CARD_ID, groupInfo.getCardID());
+            values.put(SHARED_COMPANY_NAME, groupInfo.getCompanyName());
+            database.insert(SHARED_CARD_TABLE_NAME, null, values);
+            database.close();
         } catch (Exception e) {
             e.printStackTrace();
             Utils.sendReport(context, e);
@@ -730,19 +730,19 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void insertSharedContactList(ArrayList<GroupInfo> groupInfos) {
-        try{
-        SQLiteDatabase database = this.getWritableDatabase();
-        for (int i = 0; i < groupInfos.size(); i++) {
-            ContentValues values = new ContentValues();
-            GroupInfo groupInfo = groupInfos.get(i);
-            values.put(SHARED_USER_ID, groupInfo.getUserID());
-            values.put(SHARED_USER_NAME, groupInfo.getName());
-            values.put(SHARED_PHONE_NO, groupInfo.getContactNumber());
-            values.put(SHARED_CARD_ID, groupInfo.getCardID());
-            values.put(SHARED_COMPANY_NAME, groupInfo.getCompanyName());
-            database.insert(SHARED_CARD_TABLE_NAME, null, values);
-        }
-        database.close();
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+            for (int i = 0; i < groupInfos.size(); i++) {
+                ContentValues values = new ContentValues();
+                GroupInfo groupInfo = groupInfos.get(i);
+                values.put(SHARED_USER_ID, groupInfo.getUserID());
+                values.put(SHARED_USER_NAME, groupInfo.getName());
+                values.put(SHARED_PHONE_NO, groupInfo.getContactNumber());
+                values.put(SHARED_CARD_ID, groupInfo.getCardID());
+                values.put(SHARED_COMPANY_NAME, groupInfo.getCompanyName());
+                database.insert(SHARED_CARD_TABLE_NAME, null, values);
+            }
+            database.close();
         } catch (Exception e) {
             e.printStackTrace();
             Utils.sendReport(context, e);
@@ -750,21 +750,21 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<GroupInfo> getSharedContact() {
-        String selectQuery = "SELECT  * FROM " + SHARED_CARD_TABLE_NAME + " ORDER BY " + Constants.CONTACT_EMAIL_NAME + " ASC;";
+        String selectQuery = "SELECT  * FROM " + SHARED_CARD_TABLE_NAME + " ORDER BY " + SHARED_USER_NAME + " ASC;";
         ArrayList<GroupInfo> groupInfos = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        try{
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        while (cursor.moveToNext()) {
-            GroupInfo groupInfo = new GroupInfo();
-            groupInfo.setUserID(cursor.getString(cursor.getColumnIndex(SHARED_USER_ID)));
-            groupInfo.setName(cursor.getString(cursor.getColumnIndex(SHARED_USER_NAME)));
-            groupInfo.setContactNumber(cursor.getString(cursor.getColumnIndex(SHARED_PHONE_NO)));
-            groupInfo.setCardID(cursor.getString(cursor.getColumnIndex(SHARED_CARD_ID)));
-            groupInfo.setCompanyName(cursor.getString(cursor.getColumnIndex(SHARED_COMPANY_NAME)));
-            groupInfos.add(groupInfo);
-        }
-        cursor.close();
+        try {
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            while (cursor.moveToNext()) {
+                GroupInfo groupInfo = new GroupInfo();
+                groupInfo.setUserID(cursor.getString(cursor.getColumnIndex(SHARED_USER_ID)));
+                groupInfo.setName(cursor.getString(cursor.getColumnIndex(SHARED_USER_NAME)));
+                groupInfo.setContactNumber(cursor.getString(cursor.getColumnIndex(SHARED_PHONE_NO)));
+                groupInfo.setCardID(cursor.getString(cursor.getColumnIndex(SHARED_CARD_ID)));
+                groupInfo.setCompanyName(cursor.getString(cursor.getColumnIndex(SHARED_COMPANY_NAME)));
+                groupInfos.add(groupInfo);
+            }
+            cursor.close();
         } catch (Exception e) {
             e.printStackTrace();
             Utils.sendReport(context, e);
@@ -777,16 +777,16 @@ public class DBHelper extends SQLiteOpenHelper {
         GroupInfo groupInfo = new GroupInfo();
         String selectQuery = "SELECT  * FROM " + SHARED_CARD_TABLE_NAME + " WHERE " + SHARED_USER_ID + " = '" + card_id + "'";
         SQLiteDatabase db = this.getReadableDatabase();
-        try{
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        while (cursor.moveToFirst()) {
-            groupInfo.setUserID(cursor.getString(cursor.getColumnIndex(SHARED_USER_ID)));
-            groupInfo.setName(cursor.getString(cursor.getColumnIndex(SHARED_USER_NAME)));
-            groupInfo.setContactNumber(cursor.getString(cursor.getColumnIndex(SHARED_PHONE_NO)));
-            groupInfo.setCardID(cursor.getString(cursor.getColumnIndex(SHARED_CARD_ID)));
-            groupInfo.setCompanyName(cursor.getString(cursor.getColumnIndex(SHARED_COMPANY_NAME)));
-        }
-        cursor.close();
+        try {
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            while (cursor.moveToFirst()) {
+                groupInfo.setUserID(cursor.getString(cursor.getColumnIndex(SHARED_USER_ID)));
+                groupInfo.setName(cursor.getString(cursor.getColumnIndex(SHARED_USER_NAME)));
+                groupInfo.setContactNumber(cursor.getString(cursor.getColumnIndex(SHARED_PHONE_NO)));
+                groupInfo.setCardID(cursor.getString(cursor.getColumnIndex(SHARED_CARD_ID)));
+                groupInfo.setCompanyName(cursor.getString(cursor.getColumnIndex(SHARED_COMPANY_NAME)));
+            }
+            cursor.close();
         } catch (Exception e) {
             e.printStackTrace();
             Utils.sendReport(context, e);
@@ -796,14 +796,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void clearSharedContacts() {
-        try{
-        SQLiteDatabase database = this.getWritableDatabase();
-        database.delete(SHARED_CARD_TABLE_NAME, null, null);
-        database.close();
-    } catch (Exception e) {
-        e.printStackTrace();
-        Utils.sendReport(context, e);
-    }
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+            database.delete(SHARED_CARD_TABLE_NAME, null, null);
+            database.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utils.sendReport(context, e);
+        }
     }
 
     public void deleteSharedCard(String cardID) {
@@ -819,14 +819,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void updateNearByCard(String card_id, String card_name, int visibility) {
-        try{
-        SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(NEAR_BY_SELECTED_CARD_ID, card_id);
-        values.put(NEAR_BY_SELECTED_CARD_NAME, card_name);
-        values.put(NEAR_BY_SELECTED_VISIBILITY, String.valueOf(visibility));
-        database.insert(NEAR_BY_SELECTED_CARD_TABLE_NAME, null, values);
-        database.close();
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(NEAR_BY_SELECTED_CARD_ID, card_id);
+            values.put(NEAR_BY_SELECTED_CARD_NAME, card_name);
+            values.put(NEAR_BY_SELECTED_VISIBILITY, String.valueOf(visibility));
+            database.insert(NEAR_BY_SELECTED_CARD_TABLE_NAME, null, values);
+            database.close();
         } catch (Exception e) {
             e.printStackTrace();
             Utils.sendReport(context, e);
@@ -834,10 +834,10 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void clearNearBy() {
-        try{
-        SQLiteDatabase database = this.getWritableDatabase();
-        database.delete(NEAR_BY_SELECTED_CARD_TABLE_NAME, null, null);
-        database.close();
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+            database.delete(NEAR_BY_SELECTED_CARD_TABLE_NAME, null, null);
+            database.close();
         } catch (Exception e) {
             e.printStackTrace();
             Utils.sendReport(context, e);
@@ -848,15 +848,15 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<String> arrayList = new ArrayList<String>();
         String selectQuery = "SELECT  * FROM " + NEAR_BY_SELECTED_CARD_TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
-        try{
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            arrayList.add(cursor.getString(cursor.getColumnIndex(NEAR_BY_SELECTED_CARD_ID)));
-            arrayList.add(cursor.getString(cursor.getColumnIndex(NEAR_BY_SELECTED_CARD_NAME)));
-            arrayList.add(cursor.getString(cursor.getColumnIndex(NEAR_BY_SELECTED_VISIBILITY)));
-        }
-        cursor.close();
+        try {
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                arrayList.add(cursor.getString(cursor.getColumnIndex(NEAR_BY_SELECTED_CARD_ID)));
+                arrayList.add(cursor.getString(cursor.getColumnIndex(NEAR_BY_SELECTED_CARD_NAME)));
+                arrayList.add(cursor.getString(cursor.getColumnIndex(NEAR_BY_SELECTED_VISIBILITY)));
+            }
+            cursor.close();
         } catch (Exception e) {
             e.printStackTrace();
             Utils.sendReport(context, e);
