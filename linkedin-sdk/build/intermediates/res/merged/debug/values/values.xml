@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/F:/Android-Projects/CardBiz/linkedin-sdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
-    <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
     <attr format="boolean" name="isLightTheme"/>
@@ -210,14 +208,10 @@
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="status_bar_notification_info_overflow">999+</string>
-    <!-- From: file:/F:/Android-Projects/CardBiz/linkedin-sdk/src/main/res/values/strings.xml -->
-    <eat-comment/>
     <string name="update_linkedin_app_cancel">Cancel</string>
     <string name="update_linkedin_app_download">Download</string>
     <string name="update_linkedin_app_message">To connect with LinkedIn you need to update LinkedIn app. Would you like to do it?</string>
     <string name="update_linkedin_app_title">Update LinkedIn app</string>
-    <!-- From: file:/F:/Android-Projects/CardBiz/linkedin-sdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
-    <eat-comment/>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>

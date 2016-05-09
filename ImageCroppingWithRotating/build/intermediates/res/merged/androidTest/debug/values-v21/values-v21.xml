@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/F:/Android-Projects/CardBiz/ImageCroppingWithRotating/build/intermediates/bundles/debug/res/values-v21/values-v21.xml -->
-    <eat-comment/>
     <color name="crop__selector_pressed">#aaaaaa</color>
 </resources>

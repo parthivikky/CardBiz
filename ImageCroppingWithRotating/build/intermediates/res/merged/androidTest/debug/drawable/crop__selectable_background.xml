@@ -17,4 +17,4 @@
 
     <item android:drawable="@android:color/transparent" />
 
-</selector><!-- From: file:/F:/Android-Projects/CardBiz/ImageCroppingWithRotating/src/main/res/drawable/crop__selectable_background.xml --><!-- From: file:/F:/Android-Projects/CardBiz/ImageCroppingWithRotating/build/intermediates/bundles/debug/res/drawable/crop__selectable_background.xml -->
+</selector>

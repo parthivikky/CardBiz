@@ -16,4 +16,4 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/done_cancel_bar"/>
 
-</RelativeLayout><!-- From: file:/F:/Android-Projects/CardBiz/ImageCroppingWithRotating/src/main/res/layout/crop__activity_crop.xml -->
+</RelativeLayout>
