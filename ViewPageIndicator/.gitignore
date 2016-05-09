@@ -1,0 +1,21 @@
+.gradle
+.DS_Store
+local.properties
+.settings
+.project
+.classpath
+
+# generated files
+bin/
+gen/
+
+# built application files
+*.apk
+*.ap_
+/build
+
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea/
