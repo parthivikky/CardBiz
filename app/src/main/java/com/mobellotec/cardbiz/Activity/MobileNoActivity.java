@@ -85,14 +85,20 @@ public class MobileNoActivity extends AppCompatActivity {
                         if (register.getStatus().equalsIgnoreCase(Constants.STATUS_SUCCESS)) {
                             String userId = register.getUserID();
                             String requestID = register.getRequestID();
-                            Intent intent = new Intent(MobileNoActivity.this, VerificationActivity.class);
+                            AppPreference.setBoolean(MobileNoActivity.this, AppPreference.IS_LOGIN, true);
+                            AppPreference.setString(MobileNoActivity.this, AppPreference.MOBILE, Helper.removePlusFromMobile(country_code.getText().toString() + mobile.getText().toString()));
+                            AppPreference.setString(MobileNoActivity.this, AppPreference.USER_ID, userId);
+                            if (urlSchemeHost != null) {
+                                startActivity(new Intent(MobileNoActivity.this, SharedCardViewActivity.class).putExtra("share", urlSchemeHost));
+                            } else {
+                                startActivity(new Intent(MobileNoActivity.this, HomeActivity.class).putExtra("is_register",true));
+                            }
+                            /*Intent intent = new Intent(MobileNoActivity.this, VerificationActivity.class);
                             intent.putExtra("share", urlSchemeHost);
                             intent.putExtra("requestID", requestID);
                             intent.putExtra("userId", userId);
-                            startActivityForResult(intent, USER_VERIFICATION);
-                            AppPreference.setString(MobileNoActivity.this, AppPreference.MOBILE, Helper.removePlusFromMobile(country_code.getText().toString() + mobile.getText().toString()));
-                            AppPreference.setString(MobileNoActivity.this, AppPreference.USER_ID, userId);
-//                        finish();
+                            startActivityForResult(intent, USER_VERIFICATION);*/
+                        finish();
                         } else {
                             Toast.makeText(MobileNoActivity.this, register.getErrorMsg(), Toast.LENGTH_LONG).show();
                         }

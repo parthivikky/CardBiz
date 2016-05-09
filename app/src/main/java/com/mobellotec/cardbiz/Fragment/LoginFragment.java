@@ -294,7 +294,7 @@ public class LoginFragment extends Fragment {
                             AppPreference.setString(getActivity(), AppPreference.EMAIL, email_id);
                             AppPreference.setString(getActivity(), AppPreference.MOBILE, mobile);
                             AppPreference.setString(getActivity(), AppPreference.USER_ID, login.getUserInfo().getUserID());
-                            if (login.getUserInfo().getIsVerified().equalsIgnoreCase("1")) {
+//                            if (login.getUserInfo().getIsVerified().equalsIgnoreCase("1")) {
                                 AppPreference.setBoolean(getActivity(), AppPreference.IS_LOGIN, true);
                                 if (urlSchemeHost != null) {
                                     Intent intent = new Intent(getActivity(), SharedCardViewActivity.class);
@@ -305,12 +305,12 @@ public class LoginFragment extends Fragment {
                                     startActivity(new Intent(getActivity(), HomeActivity.class));
                                     getActivity().finish();
                                 }
-                            } else {
+                           /* } else {
                                 Intent intent = new Intent(getActivity(), VerificationActivity.class);
                                 intent.putExtra("share", urlSchemeHost);
                                 intent.putExtra("requestID", login.getRequestID());
                                 startActivityForResult(intent, USER_VERIFICATION);
-                            }
+                            }*/
                         } else {
                             if (userType.equalsIgnoreCase("normal")) {
                                 CommonClass.showMessageToast(getActivity(), "Invalid username and password");

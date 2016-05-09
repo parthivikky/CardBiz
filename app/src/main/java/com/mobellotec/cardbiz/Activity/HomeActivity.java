@@ -1,6 +1,7 @@
 package com.mobellotec.cardbiz.Activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,6 +50,9 @@ public class HomeActivity extends AppCompatActivity {
         try {
             Helper.listActivity.add(this);
             initViews();
+            if(getIntent().getBooleanExtra("is_register",false)){
+                showSuccessDialog();
+            }
             strCurrentUserID = AppPreference.getString(getApplicationContext(), AppPreference.USER_ID);
             AppPreference.setBoolean(getApplicationContext(), AppPreference.CARD_LOAD_SERVER, true);
             AppPreference.setBoolean(getApplicationContext(), AppPreference.GROUP_LOAD_FROM_SERVER, true);
@@ -224,5 +229,27 @@ public class HomeActivity extends AppCompatActivity {
             e.printStackTrace();
             Utils.sendReport(HomeActivity.this, e);
         }
+    }
+
+    private void showSuccessDialog() {
+        final AlertDialog alert = new AlertDialog.Builder(HomeActivity.this).create();
+        LayoutInflater inflater = (LayoutInflater) HomeActivity.this.getLayoutInflater();
+        final View view = inflater.inflate(R.layout.delete_alert_dialog, null);
+        alert.setView(view);
+        TextView cancel = (TextView) view.findViewById(R.id.negative);
+        TextView submit = (TextView) view.findViewById(R.id.positive);
+        TextView title = (TextView) view.findViewById(R.id.title);
+        TextView text = (TextView) view.findViewById(R.id.text);
+        title.setText("Registered Successfully");
+        text.setText("Congratulations and welcome to Cardbiz");
+        cancel.setVisibility(View.GONE);
+        submit.setText("Ok");
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+        alert.show();
     }
 }

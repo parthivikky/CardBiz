@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mobellotec.cardbiz.Activity.HomeActivity;
+import com.mobellotec.cardbiz.Activity.SharedCardViewActivity;
 import com.mobellotec.cardbiz.Activity.VerificationActivity;
 import com.mobellotec.cardbiz.Model.Register;
 import com.mobellotec.cardbiz.R;
@@ -132,12 +134,18 @@ public class RegisterFragment extends Fragment {
                             AppPreference.setString(getActivity(), AppPreference.EMAIL, emailId.getText().toString());
                             AppPreference.setString(getActivity(), AppPreference.MOBILE, Helper.removePlusFromMobile(country_code.getText().toString() + mobile.getText().toString()));
                             AppPreference.setString(getActivity(), AppPreference.USER_ID, userId);
-                            Intent intent = new Intent(getActivity(), VerificationActivity.class);
+                            AppPreference.setBoolean(getActivity(), AppPreference.IS_LOGIN, true);
+                            if (urlSchemeHost != null) {
+                                startActivity(new Intent(getActivity(), SharedCardViewActivity.class).putExtra("share", urlSchemeHost));
+                            } else {
+                                startActivity(new Intent(getActivity(), HomeActivity.class).putExtra("is_register",true));
+                            }
+                            /*Intent intent = new Intent(getActivity(), VerificationActivity.class);
                             intent.putExtra("share", urlSchemeHost);
                             intent.putExtra("requestID", requestID);
                             intent.putExtra("userId", userId);
-                            startActivityForResult(intent, USER_VERIFICATION);
-//                        getActivity().finish();
+                            startActivityForResult(intent, USER_VERIFICATION);*/
+                        getActivity().finish();
                         } else {
                             Toast.makeText(getActivity(), register.getErrorMsg(), Toast.LENGTH_LONG).show();
                         }
